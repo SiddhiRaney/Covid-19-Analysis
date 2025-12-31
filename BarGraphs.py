@@ -55,3 +55,16 @@ fig6 = px.bar(dataset1.head(15),
               height=500, 
               hover_data=['Country/Region', 'Continent'])
 fig6.show()
+top15 = dataset1.sort_values(by='TotalCases', ascending=False).head(15)
+
+fig1 = px.bar(
+    top15,
+    x='Country/Region',
+    y='TotalCases',
+    color='TotalCases',
+    height=500,
+    hover_data=['Country/Region', 'Continent'],
+    title="Top 15 Countries by Total COVID-19 Cases",
+    color_continuous_scale='Reds'
+)
+fig1.show()

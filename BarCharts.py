@@ -93,3 +93,85 @@ if "Tests" in df_US.columns:
         height=400
     )
     fig7.show()
+# ------------------- STEP 9: Line Charts for Trend Analysis -------------------
+
+# 9️⃣ Line chart - Global confirmed cases trend over time
+# Line charts are better for observing overall trends
+fig8 = px.line(
+    dataset2,
+    x="Date",
+    y="Confirmed",
+    color="Country/Region",
+    title="Confirmed Cases Trend Over Time (All Countries)",
+    height=450
+)
+fig8.show()
+
+# 10️⃣ Line chart - Deaths trend in USA
+# Shows how deaths progressed with time in the US
+fig9 = px.line(
+    df_US,
+    x="Date",
+    y="Deaths",
+    title="Death Cases Trend in USA",
+    height=400
+)
+fig9.show()
+
+# ------------------- STEP 10: Scatter Plot for Correlation Analysis -------------------
+
+# 1️⃣1️⃣ Scatter plot - Confirmed vs Deaths (USA)
+# Helps analyze correlation between confirmed cases and deaths
+fig10 = px.scatter(
+    df_US,
+    x="Confirmed",
+    y="Deaths",
+    size="Confirmed",
+    color="Deaths",
+    title="Confirmed vs Deaths Correlation (USA)",
+    height=450
+)
+fig10.show()
+
+# ------------------- STEP 11: Area Chart for Cumulative Impact -------------------
+
+# 1️⃣2️⃣ Area chart - Confirmed, Recovered, Deaths in USA
+# Shows cumulative impact of covid over time
+fig11 = px.area(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Recovered", "Deaths"],
+    title="Cumulative COVID-19 Impact in USA",
+    height=450
+)
+fig11.show()
+
+# ------------------- STEP 12: Pie Chart for Distribution Analysis -------------------
+
+# 1️⃣3️⃣ Pie chart - Distribution of cases on latest date (USA)
+# Helps understand proportion of confirmed, recovered, and deaths
+latest_date = df_US["Date"].max()
+latest_data = df_US[df_US["Date"] == latest_date]
+
+fig12 = px.pie(
+    latest_data,
+    values=[latest_data["Confirmed"].sum(),
+            latest_data["Recovered"].sum(),
+            latest_data["Deaths"].sum()],
+    names=["Confirmed", "Recovered", "Deaths"],
+    title="Case Distribution in USA (Latest Date)"
+)
+fig12.show()
+
+# ------------------- STEP 13: Heatmap for Temporal Density -------------------
+
+# 1️⃣4️⃣ Heatmap - Confirmed cases density over time (USA)
+# Highlights periods of high infection density
+fig13 = px.density_heatmap(
+    df_US,
+    x="Date",
+    y="Confirmed",
+    title="Confirmed Cases Density Over Time (USA)",
+    height=450
+)
+fig13.show()

@@ -77,3 +77,12 @@ fig = px.choropleth(
 # Still interactive, hoverable.
 
 fig.show()
+fig.update_layout(
+    coloraxis_colorbar=dict(
+        title="Population",
+        tickformat=",",        # Comma separated numbers
+        len=0.75
+    )
+)
+
+fig.show()

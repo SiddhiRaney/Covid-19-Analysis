@@ -68,3 +68,80 @@ fig1 = px.bar(
     color_continuous_scale='Reds'
 )
 fig1.show()
+# ---------------- Graph 7: Top 15 Countries by Total Deaths ----------------
+fig7 = px.bar(
+    top15,
+    x='Country/Region',
+    y='TotalDeaths',
+    color='TotalDeaths',
+    height=500,
+    hover_data=['Country/Region', 'Continent'],
+    title="Top 15 Countries by Total COVID-19 Deaths",
+    color_continuous_scale='Oranges'
+)
+fig7.show()
+
+
+# ---------------- Graph 8: Top 15 Countries by Total Recovered ----------------
+fig8 = px.bar(
+    top15,
+    x='Country/Region',
+    y='TotalRecovered',
+    color='TotalRecovered',
+    height=500,
+    hover_data=['Country/Region', 'Continent'],
+    title="Top 15 Countries by Total Recoveries",
+    color_continuous_scale='Greens'
+)
+fig8.show()
+
+
+# ---------------- Graph 9: Scatter Plot - Total Cases vs Deaths ----------------
+fig9 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='TotalDeaths',
+    size='TotalCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Total Cases vs Total Deaths (Top 15 Countries)"
+)
+fig9.show()
+
+
+# ---------------- Graph 10: Scatter Plot - Total Cases vs Total Tests ----------------
+fig10 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='TotalTests',
+    size='TotalTests',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Total Cases vs Total Tests (Top 15 Countries)"
+)
+fig10.show()
+
+
+# ---------------- Graph 11: Pie Chart - Share of Total Cases by Continent ----------------
+continent_cases = top15.groupby('Continent')['TotalCases'].sum().reset_index()
+
+fig11 = px.pie(
+    continent_cases,
+    names='Continent',
+    values='TotalCases',
+    title="Continent-wise Share of Total COVID-19 Cases (Top 15 Countries)"
+)
+fig11.show()
+
+
+# ---------------- Graph 12: Bubble Chart - Cases, Deaths & Tests ----------------
+fig12 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='TotalDeaths',
+    size='TotalTests',
+    color='Country/Region',
+    hover_name='Country/Region',
+    title="Cases vs Deaths with Bubble Size = Total Tests"
+)
+fig12.show()

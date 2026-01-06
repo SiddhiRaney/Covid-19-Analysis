@@ -175,3 +175,16 @@ fig13 = px.density_heatmap(
     height=450
 )
 fig13.show()
+
+
+fig14 = px.bar(
+    dataset2,
+    x="Country/Region",
+    y="Confirmed",
+    color="Country/Region",
+    animation_frame="Date",
+    animation_group="Country/Region",
+    title="Animated Growth of Confirmed Cases by Country",
+    height=500
+)
+fig14.show()

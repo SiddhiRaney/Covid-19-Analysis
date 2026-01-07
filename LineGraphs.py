@@ -73,3 +73,70 @@ fig9 = px.line(
     title="COVID-19 Death Rate Over Time in the US"
 )
 fig9.show()
+import plotly.express as px
+
+# ---------------- Cumulative Cases vs Deaths ----------------
+fig10 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Deaths"],
+    height=400,
+    title="Cumulative Confirmed Cases vs Deaths in the US"
+)
+fig10.show()
+
+# ---------------- Daily New Cases vs New Deaths ----------------
+fig11 = px.line(
+    df_US,
+    x="Date",
+    y=["New cases", "New deaths"],
+    height=400,
+    title="Daily New Cases vs New Deaths in the US"
+)
+fig11.show()
+
+# ---------------- Active Cases vs Recovered ----------------
+fig12 = px.line(
+    df_US,
+    x="Date",
+    y=["Active", "Recovered"],
+    height=400,
+    title="Active Cases vs Recovered Cases Over Time in the US"
+)
+fig12.show()
+
+# ---------------- Case Fatality Ratio Over Time ----------------
+df_US["CFR"] = df_US["Deaths"] / df_US["Confirmed"] * 100  # Percentage
+
+fig13 = px.line(
+    df_US,
+    x="Date",
+    y="CFR",
+    height=400,
+    title="Case Fatality Ratio (%) Over Time in the US"
+)
+fig13.show()
+
+# ---------------- Daily Growth Rate of Cases ----------------
+df_US["DailyGrowthRate"] = df_US["Confirmed"].pct_change() * 100  # Percentage
+
+fig14 = px.line(
+    df_US,
+    x="Date",
+    y="DailyGrowthRate",
+    height=400,
+    title="Daily Growth Rate of COVID-19 Cases in the US (%)"
+)
+fig14.show()
+
+# ---------------- Active Cases as % of Total Cases ----------------
+df_US["ActivePercent"] = df_US["Active"] / df_US["Confirmed"] * 100
+
+fig15 = px.line(
+    df_US,
+    x="Date",
+    y="ActivePercent",
+    height=400,
+    title="Active Cases as Percentage of Total Confirmed Cases in the US"
+)
+fig15.show()

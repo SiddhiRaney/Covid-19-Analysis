@@ -86,3 +86,10 @@ fig.update_layout(
 )
 
 fig.show()
+fig.update_traces(
+    hovertemplate=
+    "<b>%{hovertext}</b><br>" +
+    "Population: %{z:,}<extra></extra>"
+)
+
+fig.show()

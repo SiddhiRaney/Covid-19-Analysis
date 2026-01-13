@@ -248,3 +248,14 @@ fig20 = px.scatter(dataset1.head(30),
                    log_x=True)
 fig20.show()
 
+# Bubble chart - TotalCases vs Death Rate (%)
+# Shows how deadly the spread is relative to cases
+fig21 = px.scatter(dataset1.head(30),
+                   x='TotalCases',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80,
+                   log_x=True)
+fig21.show()

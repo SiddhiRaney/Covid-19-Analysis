@@ -140,3 +140,99 @@ fig15 = px.line(
     title="Active Cases as Percentage of Total Confirmed Cases in the US"
 )
 fig15.show()
+
+import plotly.express as px
+
+# ---------------- Positivity Proxy (New Cases / Active) ----------------
+df_US["PositivityProxy"] = df_US["New cases"] / df_US["Active"]
+
+fig16 = px.line(
+    df_US,
+    x="Date",
+    y="PositivityProxy",
+    height=400,
+    title="New Cases to Active Cases Ratio (Positivity Proxy)"
+)
+fig16.show()
+
+# ---------------- Recovered vs Deaths Ratio ----------------
+df_US["RecoveredToDeaths"] = df_US["Recovered"] / df_US["Deaths"]
+
+fig17 = px.line(
+    df_US,
+    x="Date",
+    y="RecoveredToDeaths",
+    height=400,
+    title="Recovered to Deaths Ratio Over Time in the US"
+)
+fig17.show()
+
+# ---------------- Active Cases Change Per Day ----------------
+df_US["ActiveChange"] = df_US["Active"].diff()
+
+fig18 = px.line(
+    df_US,
+    x="Date",
+    y="ActiveChange",
+    height=400,
+    title="Daily Change in Active COVID-19 Cases in the US"
+)
+fig18.show()
+
+# ---------------- Deaths per New Case ----------------
+df_US["DeathsPerNewCase"] = df_US["New deaths"] / df_US["New cases"]
+
+fig19 = px.line(
+    df_US,
+    x="Date",
+    y="DeathsPerNewCase",
+    height=400,
+    title="Deaths per New COVID-19 Case in the US"
+)
+fig19.show()
+
+# ---------------- 14-Day Rolling Avg of New Deaths ----------------
+df_US["NewDeaths_14DayAvg"] = df_US["New deaths"].rolling(window=14).mean()
+
+fig20 = px.line(
+    df_US,
+    x="Date",
+    y="NewDeaths_14DayAvg",
+    height=400,
+    title="14-Day Rolling Average of New Deaths in the US"
+)
+fig20.show()
+
+# ---------------- Confirmed vs Recovered vs Deaths ----------------
+fig21 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Recovered", "Deaths"],
+    height=400,
+    title="Confirmed vs Recovered vs Deaths Over Time in the US"
+)
+fig21.show()
+
+# ---------------- Recovery Momentum (Daily Recovered Change) ----------------
+df_US["RecoveredChange"] = df_US["Recovered"].diff()
+
+fig22 = px.line(
+    df_US,
+    x="Date",
+    y="RecoveredChange",
+    height=400,
+    title="Daily Change in Recovered Cases in the US"
+)
+fig22.show()
+
+# ---------------- Log Scale Confirmed Cases ----------------
+fig23 = px.line(
+    df_US,
+    x="Date",
+    y="Confirmed",
+    height=400,
+    title="Log Scale of Confirmed COVID-19 Cases in the US",
+    log_y=True
+)
+fig23.show()
+

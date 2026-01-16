@@ -145,3 +145,102 @@ fig12 = px.scatter(
     title="Cases vs Deaths with Bubble Size = Total Tests"
 )
 fig12.show()
+# ---------------- Graph 13: Death Rate (%) by Country ----------------
+top15['DeathRate'] = (top15['TotalDeaths'] / top15['TotalCases']) * 100
+
+fig13 = px.bar(
+    top15,
+    x='Country/Region',
+    y='DeathRate',
+    color='DeathRate',
+    height=500,
+    hover_data=['Continent'],
+    title="COVID-19 Death Rate (%) by Country (Top 15)",
+    color_continuous_scale='Reds'
+)
+fig13.show()
+
+
+# ---------------- Graph 14: Recovery Rate (%) by Country ----------------
+top15['RecoveryRate'] = (top15['TotalRecovered'] / top15['TotalCases']) * 100
+
+fig14 = px.bar(
+    top15,
+    x='Country/Region',
+    y='RecoveryRate',
+    color='RecoveryRate',
+    height=500,
+    hover_data=['Continent'],
+    title="COVID-19 Recovery Rate (%) by Country (Top 15)",
+    color_continuous_scale='Greens'
+)
+fig14.show()
+
+
+# ---------------- Graph 15: Scatter - Total Tests vs Total Deaths ----------------
+fig15 = px.scatter(
+    top15,
+    x='TotalTests',
+    y='TotalDeaths',
+    size='TotalDeaths',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Total Tests vs Total Deaths (Top 15 Countries)"
+)
+fig15.show()
+
+
+# ---------------- Graph 16: Box Plot - Total Cases by Continent ----------------
+fig16 = px.box(
+    top15,
+    x='Continent',
+    y='TotalCases',
+    color='Continent',
+    title="Distribution of Total COVID-19 Cases by Continent"
+)
+fig16.show()
+
+
+# ---------------- Graph 17: Correlation Heatmap ----------------
+corr = top15[['TotalCases', 'TotalDeaths', 'TotalRecovered', 'TotalTests']].corr()
+
+fig17 = px.imshow(
+    corr,
+    text_auto=True,
+    title="Correlation Heatmap of COVID-19 Metrics"
+)
+fig17.show()
+
+
+# ---------------- Graph 18: Stacked Bar - Cases, Deaths & Recovered ----------------
+fig18 = px.bar(
+    top15,
+    x='Country/Region',
+    y=['TotalCases', 'TotalDeaths', 'TotalRecovered'],
+    title="Cases, Deaths & Recoveries Comparison (Top 15)",
+    height=500
+)
+fig18.show()
+
+
+# ---------------- Graph 19: Treemap - Cases by Country & Continent ----------------
+fig19 = px.treemap(
+    top15,
+    path=['Continent', 'Country/Region'],
+    values='TotalCases',
+    title="Treemap of Total COVID-19 Cases by Country and Continent"
+)
+fig19.show()
+
+
+# ---------------- Graph 20: Bubble Chart - Recovery Rate vs Death Rate ----------------
+fig20 = px.scatter(
+    top15,
+    x='RecoveryRate',
+    y='DeathRate',
+    size='TotalCases',
+    color='Country/Region',
+    hover_name='Country/Region',
+    title="Recovery Rate vs Death Rate (Bubble Size = Total Cases)"
+)
+fig20.show()

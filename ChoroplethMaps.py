@@ -93,3 +93,22 @@ fig.update_traces(
 )
 
 fig.show()
+df["Population_M"] = df["Population"] / 1_000_000
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    hover_data={"Population_M": ":.2f"},
+    color_continuous_scale="Viridis",
+    scope="usa",
+    title="U.S. State Population (in Millions)"
+)
+
+fig.update_layout(
+    coloraxis_colorbar=dict(title="Population (M)")
+)
+
+fig.show()

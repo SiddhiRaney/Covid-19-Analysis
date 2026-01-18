@@ -188,3 +188,106 @@ fig14 = px.bar(
     height=500
 )
 fig14.show()
+# ------------------- STEP 14: Growth Rate Analysis -------------------
+
+df_US = df_US.sort_values("Date")
+df_US["New_Confirmed"] = df_US["Confirmed"].diff()
+
+fig15 = px.line(
+    df_US,
+    x="Date",
+    y="New_Confirmed",
+    title="Daily New Confirmed Cases (USA)",
+    height=450
+)
+fig15.show()
+
+# ------------------- STEP 15: Rolling Average Trend -------------------
+
+df_US["Confirmed_MA7"] = df_US["Confirmed"].rolling(7).mean()
+
+fig16 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Confirmed_MA7"],
+    title="Confirmed Cases vs 7-Day Moving Average (USA)",
+    height=450
+)
+fig16.show()
+
+# ------------------- STEP 16: Box Plot for Distribution -------------------
+
+fig17 = px.box(
+    dataset2,
+    x="Country/Region",
+    y="Confirmed",
+    title="Distribution of Confirmed Cases Across Countries",
+    height=450
+)
+fig17.show()
+
+# ------------------- STEP 17: Top-N Countries Comparison -------------------
+
+latest_global = dataset2[dataset2["Date"] == dataset2["Date"].max()]
+top10 = latest_global.groupby("Country/Region")["Confirmed"].sum().nlargest(10).reset_index()
+
+fig18 = px.bar(
+    top10,
+    x="Country/Region",
+    y="Confirmed",
+    color="Confirmed",
+    title="Top 10 Countries by Confirmed Cases",
+    height=450
+)
+fig18.show()
+
+# ------------------- STEP 18: Bubble Chart -------------------
+
+fig19 = px.scatter(
+    df_US,
+    x="Confirmed",
+    y="Recovered",
+    size="Deaths",
+    color="Deaths",
+    title="Confirmed vs Recovered with Deaths as Bubble Size (USA)",
+    height=450
+)
+fig19.show()
+
+# ------------------- STEP 19: Facet Visualization -------------------
+
+top_countries = top10["Country/Region"].tolist()
+df_top = dataset2[dataset2["Country/Region"].isin(top_countries)]
+
+fig20 = px.line(
+    df_top,
+    x="Date",
+    y="Confirmed",
+    facet_col="Country/Region",
+    facet_col_wrap=3,
+    title="Confirmed Cases Trend (Top 10 Countries)",
+    height=600
+)
+fig20.show()
+
+# ------------------- STEP 20: Choropleth Map (Global View) -------------------
+
+fig21 = px.choropleth(
+    latest_global,
+    locations="Country/Region",
+    locationmode="country names",
+    color="Confirmed",
+    title="Global COVID-19 Confirmed Cases (Latest Date)",
+    height=500
+)
+fig21.show()
+
+# ------------------- STEP 21: Correlation Heatmap -------------------
+
+fig22 = px.imshow(
+    df_US[["Confirmed", "Recovered", "Deaths"]].corr(),
+    text_auto=True,
+    title="Correlation Between COVID-19 Metrics (USA)",
+    height=400
+)
+fig22.show()

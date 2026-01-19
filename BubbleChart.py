@@ -169,6 +169,133 @@ fig14 = px.scatter(dataset1.head(30),
                    size_max=80)
 fig14.show()
 
+# --------------------------- STEP 11: RECOVERY ANALYSIS ---------------------------
+
+# Bubble chart - TotalCases vs TotalRecovered
+# Shows recovery trend with respect to total cases
+fig22 = px.scatter(dataset1.head(30),
+                   x='TotalCases',
+                   y='TotalRecovered',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalRecovered',
+                   size='TotalRecovered',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig22.show()
+
+# Bubble chart - Recovery Rate vs Death Rate
+# Compares how well countries recover vs mortality
+fig23 = px.scatter(dataset1.head(30),
+                   x='RecoveryRate',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig23.show()
+
+
+# --------------------------- STEP 12: ACTIVE CASES ANALYSIS ---------------------------
+
+# Bubble chart - Country vs ActiveCases
+# Highlights ongoing burden on healthcare systems
+fig24 = px.scatter(dataset1.head(30),
+                   x='Country/Region',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='ActiveCases',
+                   size_max=80)
+fig24.show()
+
+# Bubble chart - ActiveCases vs TotalCases
+# Shows proportion of unresolved cases
+fig25 = px.scatter(dataset1.head(30),
+                   x='TotalCases',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='ActiveCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig25.show()
+
+
+# --------------------------- STEP 13: SEVERITY ANALYSIS ---------------------------
+
+# Bubble chart - Serious/Critical vs TotalCases
+# Indicates strain on critical care infrastructure
+fig26 = px.scatter(dataset1.head(30),
+                   x='TotalCases',
+                   y='Serious/Critical',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Serious/Critical',
+                   size='Serious/Critical',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig26.show()
+
+# Bubble chart - Serious/Critical per 1M vs Deaths per 1M
+fig27 = px.scatter(dataset1.head(30),
+                   x='Serious/Critical/1M pop',
+                   y='Deaths/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Deaths/1M pop',
+                   size='Deaths/1M pop',
+                   size_max=80)
+fig27.show()
+
+
+# --------------------------- STEP 14: CONTINENT-LEVEL INSIGHT ---------------------------
+
+# Bubble chart - Continent vs TotalCases
+fig28 = px.scatter(dataset1,
+                   x='Continent',
+                   y='TotalCases',
+                   hover_data=['Country/Region'],
+                   color='Continent',
+                   size='TotalCases',
+                   size_max=80,
+                   log_y=True)
+fig28.show()
+
+# Bubble chart - Continent vs TotalDeaths
+fig29 = px.scatter(dataset1,
+                   x='Continent',
+                   y='TotalDeaths',
+                   hover_data=['Country/Region'],
+                   color='Continent',
+                   size='TotalDeaths',
+                   size_max=80,
+                   log_y=True)
+fig29.show()
+
+
+# --------------------------- STEP 15: TESTING VS OUTCOME ---------------------------
+
+# Bubble chart - Tests per 1M vs Recovery Rate
+# Measures effectiveness of testing on recovery
+fig30 = px.scatter(dataset1.head(30),
+                   x='Tests/1M pop',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80,
+                   log_x=True)
+fig30.show()
+
+# Bubble chart - Tests per 1M vs Death Rate
+fig31 = px.scatter(dataset1.head(30),
+                   x='Tests/1M pop',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+
+
 
 # --------------------------- STEP 8: CORRELATION ANALYSIS ---------------------------
 

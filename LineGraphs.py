@@ -235,4 +235,83 @@ fig23 = px.line(
     log_y=True
 )
 fig23.show()
+import plotly.express as px
+import numpy as np
+
+# ---------------- 7-Day Avg: New Cases vs New Deaths ----------------
+df_US["NewCases_7DayAvg"] = df_US["New cases"].rolling(7).mean()
+df_US["NewDeaths_7DayAvg"] = df_US["New deaths"].rolling(7).mean()
+
+px.line(df_US, x="Date",
+        y=["NewCases_7DayAvg", "NewDeaths_7DayAvg"],
+        height=400,
+        title="7-Day Avg: New Cases vs New Deaths in the US").show()
+
+# ---------------- Doubling Time ----------------
+df_US["DoublingTime"] = 70 / df_US["DailyGrowthRate"]
+
+px.line(df_US, x="Date",
+        y="DoublingTime",
+        height=400,
+        title="COVID-19 Case Doubling Time (Days)").show()
+
+# ---------------- Recovered vs Death % ----------------
+df_US["RecoveredPercent"] = df_US["Recovered"] / df_US["Confirmed"] * 100
+df_US["DeathsPercent"] = df_US["Deaths"] / df_US["Confirmed"] * 100
+
+px.line(df_US, x="Date",
+        y=["RecoveredPercent", "DeathsPercent"],
+        height=400,
+        title="Recovered vs Deaths (% of Confirmed)").show()
+
+# ---------------- Net Outcome ----------------
+df_US["NetOutcome"] = df_US["Recovered"] - df_US["Deaths"]
+
+px.line(df_US, x="Date",
+        y="NetOutcome",
+        height=400,
+        title="Net Outcome (Recovered - Deaths)").show()
+
+# ---------------- Volatility in New Cases ----------------
+df_US["CaseVolatility"] = df_US["New cases"].rolling(7).std()
+
+px.line(df_US, x="Date",
+        y="CaseVolatility",
+        height=400,
+        title="7-Day Volatility of New Cases").show()
+
+# ---------------- Death Rate Momentum ----------------
+df_US["DeathRateChange"] = df_US["Death Rate"].diff()
+
+px.line(df_US, x="Date",
+        y="DeathRateChange",
+        height=400,
+        title="Change in Death Rate Over Time").show()
+
+# ---------------- Case Surge Detection (Z-Score) ----------------
+df_US["CaseZScore"] = (
+    (df_US["New cases"] - df_US["New cases"].mean()) /
+    df_US["New cases"].std()
+)
+
+px.line(df_US, x="Date",
+        y="CaseZScore",
+        height=400,
+        title="COVID-19 Case Surge Detection (Z-Score)").show()
+
+# ---------------- Active vs Closed Cases ----------------
+df_US["ClosedCases"] = df_US["Recovered"] + df_US["Deaths"]
+
+px.line(df_US, x="Date",
+        y=["Active", "ClosedCases"],
+        height=400,
+        title="Active vs Closed COVID-19 Cases").show()
+
+# ---------------- Pandemic Control Index ----------------
+df_US["ControlIndex"] = df_US["Recovered"] / df_US["Active"]
+
+px.line(df_US, x="Date",
+        y="ControlIndex",
+        height=400,
+        title="Pandemic Control Index (Recovered / Active)").show()
 

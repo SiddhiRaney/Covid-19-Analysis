@@ -244,3 +244,110 @@ fig20 = px.scatter(
     title="Recovery Rate vs Death Rate (Bubble Size = Total Cases)"
 )
 fig20.show()
+# ---------------- Graph 21: Line Chart - Total Cases by Country ----------------
+fig21 = px.line(
+    top15,
+    x='Country/Region',
+    y='TotalCases',
+    markers=True,
+    title="Line Trend of Total COVID-19 Cases (Top 15 Countries)"
+)
+fig21.show()
+
+
+# ---------------- Graph 22: Line Chart - Deaths vs Recoveries ----------------
+fig22 = px.line(
+    top15,
+    x='Country/Region',
+    y=['TotalDeaths', 'TotalRecovered'],
+    title="Deaths vs Recoveries Comparison (Top 15 Countries)"
+)
+fig22.show()
+
+
+# ---------------- Graph 23: Sunburst Chart - Continent → Country → Cases ----------------
+fig23 = px.sunburst(
+    top15,
+    path=['Continent', 'Country/Region'],
+    values='TotalCases',
+    title="Sunburst View of COVID-19 Cases"
+)
+fig23.show()
+
+
+# ---------------- Graph 24: Histogram - Distribution of Total Cases ----------------
+fig24 = px.histogram(
+    top15,
+    x='TotalCases',
+    nbins=10,
+    title="Distribution of Total COVID-19 Cases (Top 15)"
+)
+fig24.show()
+
+
+# ---------------- Graph 25: Histogram - Distribution of Death Rate ----------------
+fig25 = px.histogram(
+    top15,
+    x='DeathRate',
+    nbins=10,
+    title="Distribution of COVID-19 Death Rate (%)"
+)
+fig25.show()
+
+
+# ---------------- Graph 26: Violin Plot - Death Rate by Continent ----------------
+fig26 = px.violin(
+    top15,
+    x='Continent',
+    y='DeathRate',
+    box=True,
+    points='all',
+    title="Death Rate Distribution by Continent"
+)
+fig26.show()
+
+
+# ---------------- Graph 27: Violin Plot - Recovery Rate by Continent ----------------
+fig27 = px.violin(
+    top15,
+    x='Continent',
+    y='RecoveryRate',
+    box=True,
+    points='all',
+    title="Recovery Rate Distribution by Continent"
+)
+fig27.show()
+
+
+# ---------------- Graph 28: Scatter Matrix (Pair Plot) ----------------
+fig28 = px.scatter_matrix(
+    top15,
+    dimensions=['TotalCases', 'TotalDeaths', 'TotalRecovered', 'TotalTests'],
+    color='Continent',
+    title="Scatter Matrix of COVID-19 Metrics"
+)
+fig28.show()
+
+
+# ---------------- Graph 29: Radar Chart - Country-wise Metrics ----------------
+fig29 = px.line_polar(
+    top15,
+    r='TotalCases',
+    theta='Country/Region',
+    line_close=True,
+    title="Radar Chart of Total Cases (Top 15 Countries)"
+)
+fig29.show()
+
+
+# ---------------- Graph 30: Bar Chart - Tests per Case Ratio ----------------
+top15['TestsPerCase'] = top15['TotalTests'] / top15['TotalCases']
+
+fig30 = px.bar(
+    top15,
+    x='Country/Region',
+    y='TestsPerCase',
+    color='TestsPerCase',
+    title="COVID-19 Tests per Case Ratio (Top 15 Countries)"
+)
+fig30.show()

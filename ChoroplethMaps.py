@@ -112,3 +112,108 @@ fig.update_layout(
 )
 
 fig.show()
+# ------------------------------------------------------------
+# Step 5: Add State Labels (Text Overlay)
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    color_continuous_scale="Plasma",
+    scope="usa",
+    title="U.S. State Population with Labels (Millions)"
+)
+
+fig.update_traces(
+    text=df["State_Code"],   # show state codes
+    texttemplate="%{text}",
+    textfont_size=10
+)
+
+fig.update_layout(
+    coloraxis_colorbar=dict(title="Population (M)")
+)
+
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 6: Discrete Population Categories (Binned Choropleth)
+# ------------------------------------------------------------
+df["Pop_Category"] = pd.cut(
+    df["Population_M"],
+    bins=[0, 15, 25, 35, 45],
+    labels=["Low", "Medium", "High", "Very High"]
+)
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Pop_Category",
+    hover_name="State",
+    hover_data=["Population_M"],
+    scope="usa",
+    title="U.S. States by Population Category",
+    color_discrete_sequence=px.colors.qualitative.Set2
+)
+
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 7: Side-by-Side Comparison Using Facets
+# ------------------------------------------------------------
+df_long = df.melt(
+    id_vars=["State", "State_Code"],
+    value_vars=["Population", "Population_M"],
+    var_name="Metric",
+    value_name="Value"
+)
+
+fig = px.choropleth(
+    df_long,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Value",
+    hover_name="State",
+    facet_col="Metric",
+    scope="usa",
+    color_continuous_scale="Viridis",
+    title="Population Comparison: Absolute vs Millions"
+)
+
+fig.update_layout(margin=dict(t=60, l=0, r=0, b=0))
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 8: Add Custom Hover Styling
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    scope="usa",
+    title="Enhanced Hover Tooltip"
+)
+
+fig.update_traces(
+    hovertemplate=
+    "<b>%{hovertext}</b><br>" +
+    "Population (M): %{z:.2f}<br>" +
+    "<extra></extra>"
+)
+
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 9: Export Map to HTML (For Submission / Portfolio)
+# ------------------------------------------------------------
+fig.write_html("us_population_choropleth.html")
+

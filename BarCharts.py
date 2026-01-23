@@ -291,3 +291,169 @@ fig22 = px.imshow(
     height=400
 )
 fig22.show()
+# ------------------- STEP 22: Stacked Bar Chart -------------------
+
+# Stacked bar - Confirmed, Recovered, Deaths (USA)
+# Helps compare proportions over time
+fig23 = px.bar(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Recovered", "Deaths"],
+    title="Stacked COVID-19 Cases in USA Over Time",
+    height=450
+)
+fig23.show()
+
+
+# ------------------- STEP 23: Normalized (Percentage) Stacked Bar -------------------
+
+# Shows percentage contribution of each metric
+fig24 = px.bar(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Recovered", "Deaths"],
+    title="Percentage Distribution of COVID-19 Metrics (USA)",
+    height=450,
+    barmode="stack"
+)
+fig24.update_layout(yaxis=dict(tickformat=".0%"))
+fig24.show()
+
+
+# ------------------- STEP 24: Time-Series with Range Slider -------------------
+
+# Interactive range slider for long timelines
+fig25 = px.line(
+    df_US,
+    x="Date",
+    y="Confirmed",
+    title="Confirmed Cases with Date Range Slider (USA)",
+    height=450
+)
+fig25.update_xaxes(rangeslider_visible=True)
+fig25.show()
+
+
+# ------------------- STEP 25: Dual-Axis Line Chart -------------------
+
+# Confirmed vs Deaths comparison using secondary axis
+fig26 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Deaths"],
+    title="Confirmed vs Deaths Trend (USA)",
+    height=450
+)
+fig26.show()
+
+
+# ------------------- STEP 26: Histogram -------------------
+
+# Distribution of daily confirmed cases
+fig27 = px.histogram(
+    df_US,
+    x="New_Confirmed",
+    nbins=50,
+    title="Distribution of Daily New Confirmed Cases (USA)",
+    height=450
+)
+fig27.show()
+
+
+# ------------------- STEP 27: Violin Plot -------------------
+
+# Distribution comparison using violin plot
+fig28 = px.violin(
+    dataset2,
+    x="Country/Region",
+    y="Confirmed",
+    box=True,
+    points="outliers",
+    title="Confirmed Cases Distribution by Country",
+    height=500
+)
+fig28.show()
+
+
+# ------------------- STEP 28: Cumulative Sum Visualization -------------------
+
+df_US["Cumulative_Deaths"] = df_US["Deaths"].cumsum()
+
+fig29 = px.line(
+    df_US,
+    x="Date",
+    y="Cumulative_Deaths",
+    title="Cumulative Death Count Over Time (USA)",
+    height=450
+)
+fig29.show()
+
+
+# ------------------- STEP 29: Animated Line Chart -------------------
+
+# Animated trend showing progression over time
+fig30 = px.line(
+    dataset2,
+    x="Date",
+    y="Confirmed",
+    color="Country/Region",
+    animation_frame="Date",
+    title="Animated Confirmed Case Progression",
+    height=500
+)
+fig30.show()
+
+
+# ------------------- STEP 30: Sunburst Chart -------------------
+
+# Hierarchical view of cases
+fig31 = px.sunburst(
+    latest_global,
+    path=["Country/Region"],
+    values="Confirmed",
+    title="Hierarchical Distribution of Global Confirmed Cases",
+    height=500
+)
+fig31.show()
+
+
+# ------------------- STEP 31: Treemap -------------------
+
+fig32 = px.treemap(
+    latest_global,
+    path=["Country/Region"],
+    values="Confirmed",
+    color="Confirmed",
+    title="Treemap of Global COVID-19 Confirmed Cases",
+    height=500
+)
+fig32.show()
+
+
+# ------------------- STEP 32: Lag Analysis -------------------
+
+# Lagging deaths by 7 days to observe delay effect
+df_US["Deaths_Lag7"] = df_US["Deaths"].shift(7)
+
+fig33 = px.scatter(
+    df_US,
+    x="Confirmed",
+    y="Deaths_Lag7",
+    title="Confirmed vs Deaths (7-Day Lag) - USA",
+    height=450
+)
+fig33.show()
+
+
+# ------------------- STEP 33: Rolling Growth Rate -------------------
+
+df_US["Growth_Rate"] = df_US["New_Confirmed"].pct_change()
+
+fig34 = px.line(
+    df_US,
+    x="Date",
+    y="Growth_Rate",
+    title="Daily Growth Rate of Confirmed Cases (USA)",
+    height=450
+)
+fig34.show()

@@ -386,3 +386,130 @@ fig21 = px.scatter(dataset1.head(30),
                    size_max=80,
                    log_x=True)
 fig21.show()
+# --------------------------- STEP 16: POSITIVITY & BURDEN ANALYSIS ---------------------------
+
+# Bubble chart - Positivity Proxy: TotalCases vs TotalTests
+# Higher cases with lower tests may indicate under-testing
+fig32 = px.scatter(dataset1.head(30),
+                   x='TotalTests',
+                   y='TotalCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalCases',
+                   size='TotalCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig32.show()
+
+# Bubble chart - Cases per Test Ratio
+# Indicates how widespread infection is relative to testing
+dataset1['Cases_per_Test'] = dataset1['TotalCases'] / dataset1['TotalTests']
+
+fig33 = px.scatter(dataset1.head(30),
+                   x='Country/Region',
+                   y='Cases_per_Test',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Cases_per_Test',
+                   size='Cases_per_Test',
+                   size_max=80)
+fig33.show()
+
+
+# --------------------------- STEP 17: ACTIVE CASE LOAD ANALYSIS ---------------------------
+
+# Bubble chart - ActiveCases vs Population-adjusted Cases
+fig34 = px.scatter(dataset1.head(30),
+                   x='Cases/1M pop',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='ActiveCases',
+                   size_max=80,
+                   log_y=True)
+fig34.show()
+
+# Bubble chart - Active Ratio vs Death Rate
+dataset1['ActiveRatio'] = dataset1['ActiveCases'] / dataset1['TotalCases']
+
+fig35 = px.scatter(dataset1.head(30),
+                   x='ActiveRatio',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveRatio',
+                   size='ActiveRatio',
+                   size_max=80)
+fig35.show()
+
+
+# --------------------------- STEP 18: FATALITY & RECOVERY BALANCE ---------------------------
+
+# Bubble chart - Recovery Rate vs Cases per 1M
+fig36 = px.scatter(dataset1.head(30),
+                   x='Cases/1M pop',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig36.show()
+
+# Bubble chart - Death Rate vs Cases per 1M
+fig37 = px.scatter(dataset1.head(30),
+                   x='Cases/1M pop',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80)
+fig37.show()
+
+
+# --------------------------- STEP 19: CONTINENT-WISE AGGREGATED METRICS ---------------------------
+
+# Aggregating continent-level data
+continent_df = dataset1.groupby('Continent').mean(numeric_only=True).reset_index()
+
+# Bubble chart - Continent vs Avg Death Rate
+fig38 = px.scatter(continent_df,
+                   x='Continent',
+                   y='DeathRate',
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80)
+fig38.show()
+
+# Bubble chart - Continent vs Avg Recovery Rate
+fig39 = px.scatter(continent_df,
+                   x='Continent',
+                   y='RecoveryRate',
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig39.show()
+
+
+# --------------------------- STEP 20: HEALTHCARE STRESS INDICATORS ---------------------------
+
+# Bubble chart - Serious/Critical vs ActiveCases
+fig40 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='Serious/Critical',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Serious/Critical',
+                   size='Serious/Critical',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig40.show()
+
+# Bubble chart - Serious/Critical per 1M vs ActiveCases per 1M
+dataset1['Active/1M pop'] = dataset1['ActiveCases'] / (dataset1['Population'] / 1_000_000)
+
+fig41 = px.scatter(dataset1.head(30),
+                   x='Active/1M pop',
+                   y='Serious/Critical/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Serious/Critical/1M pop',
+                   size='Serious/Critical/1M pop',
+                   size_max=80)
+fig41.show()

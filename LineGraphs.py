@@ -315,3 +315,123 @@ px.line(df_US, x="Date",
         height=400,
         title="Pandemic Control Index (Recovered / Active)").show()
 
+# ---------------- Hospitalization Proxy (Active / Confirmed) ----------------
+df_US["HospitalLoadProxy"] = df_US["Active"] / df_US["Confirmed"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="HospitalLoadProxy",
+    height=400,
+    title="Hospital Load Proxy (Active / Confirmed)"
+).show()
+
+
+# ---------------- Peak Detection: New Cases ----------------
+df_US["NewCases_Peak"] = df_US["New cases"].rolling(7).max()
+
+px.line(
+    df_US,
+    x="Date",
+    y=["New cases", "NewCases_Peak"],
+    height=400,
+    title="New Cases vs Rolling Peak (7-Day)"
+).show()
+
+
+# ---------------- Mortality Momentum (Deaths per Active Case) ----------------
+df_US["MortalityMomentum"] = df_US["Deaths"] / df_US["Active"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="MortalityMomentum",
+    height=400,
+    title="Mortality Momentum (Deaths / Active Cases)"
+).show()
+
+
+# ---------------- Recovery Velocity ----------------
+df_US["RecoveryVelocity"] = df_US["Recovered"].pct_change() * 100
+
+px.line(
+    df_US,
+    x="Date",
+    y="RecoveryVelocity",
+    height=400,
+    title="Recovery Velocity (% Change in Recoveries)"
+).show()
+
+
+# ---------------- Case Load Pressure ----------------
+df_US["CaseLoadPressure"] = df_US["New cases"] / df_US["ClosedCases"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="CaseLoadPressure",
+    height=400,
+    title="Case Load Pressure (New / Closed Cases)"
+).show()
+
+
+# ---------------- Severity Index ----------------
+df_US["SeverityIndex"] = df_US["Deaths"] / df_US["Recovered"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="SeverityIndex",
+    height=400,
+    title="COVID-19 Severity Index (Deaths / Recovered)"
+).show()
+
+
+# ---------------- Stability Index ----------------
+df_US["StabilityIndex"] = df_US["Recovered"] / (df_US["New cases"] + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="StabilityIndex",
+    height=400,
+    title="Pandemic Stability Index"
+).show()
+
+
+# ---------------- Transmission Acceleration ----------------
+df_US["TransmissionAccel"] = df_US["New cases"].diff().diff()
+
+px.line(
+    df_US,
+    x="Date",
+    y="TransmissionAccel",
+    height=400,
+    title="Transmission Acceleration (2nd Derivative of New Cases)"
+).show()
+
+
+# ---------------- Death Lag Analysis ----------------
+df_US["Deaths_Lag7"] = df_US["New deaths"].shift(-7)
+
+px.line(
+    df_US,
+    x="Date",
+    y=["New cases", "Deaths_Lag7"],
+    height=400,
+    title="Lag Relationship: New Cases vs Deaths (7-Day Lag)"
+).show()
+
+
+# ---------------- Pandemic Phase Indicator ----------------
+df_US["PhaseIndicator"] = (
+    (df_US["Recovered"] - df_US["Active"]) / df_US["Confirmed"]
+)
+
+px.line(
+    df_US,
+    x="Date",
+    y="PhaseIndicator",
+    height=400,
+    title="Pandemic Phase Indicator"
+).show()

@@ -476,3 +476,133 @@ fig40 = px.parallel_coordinates(
     title="Parallel Coordinates Plot of COVID-19 Metrics"
 )
 fig40.show()
+# ---------------- Graph 41: Case Fatality Ratio vs Tests per Case ----------------
+fig41 = px.scatter(
+    top15,
+    x='TestsPerCase',
+    y='DeathRate',
+    size='TotalCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Case Fatality Ratio vs Tests per Case"
+)
+fig41.show()
+
+
+# ---------------- Graph 42: Recovery Efficiency Index ----------------
+top15['RecoveryEfficiency'] = top15['TotalRecovered'] / top15['ActiveCases']
+
+fig42 = px.bar(
+    top15,
+    x='Country/Region',
+    y='RecoveryEfficiency',
+    color='RecoveryEfficiency',
+    title="Recovery Efficiency Index by Country",
+    height=500,
+    color_continuous_scale='Greens'
+)
+fig42.show()
+
+
+# ---------------- Graph 43: Mortality Burden Index ----------------
+top15['MortalityBurden'] = top15['TotalDeaths'] / top15['Population'] * 1e6
+
+fig43 = px.bar(
+    top15,
+    x='Country/Region',
+    y='MortalityBurden',
+    color='MortalityBurden',
+    title="Mortality Burden per Million Population",
+    height=500,
+    color_continuous_scale='Reds'
+)
+fig43.show()
+
+
+# ---------------- Graph 44: Active Cases Percentage ----------------
+top15['ActiveRate'] = (top15['ActiveCases'] / top15['TotalCases']) * 100
+
+fig44 = px.bar(
+    top15,
+    x='Country/Region',
+    y='ActiveRate',
+    color='ActiveRate',
+    title="Active Cases Percentage by Country",
+    height=500,
+    color_continuous_scale='Blues'
+)
+fig44.show()
+
+
+# ---------------- Graph 45: Donut Chart - Active vs Closed Cases ----------------
+closed_cases = top15[['Country/Region', 'TotalRecovered', 'TotalDeaths']]
+closed_cases['ClosedCases'] = closed_cases['TotalRecovered'] + closed_cases['TotalDeaths']
+
+fig45 = px.pie(
+    closed_cases,
+    names='Country/Region',
+    values='ClosedCases',
+    hole=0.4,
+    title="Closed Cases Distribution (Recovered + Deaths)"
+)
+fig45.show()
+
+
+# ---------------- Graph 46: Scatter - Population Density Effect (Proxy) ----------------
+fig46 = px.scatter(
+    top15,
+    x='Population',
+    y='ActiveCases',
+    size='TotalCases',
+    color='Country/Region',
+    title="Population vs Active Cases (Density Effect Proxy)"
+)
+fig46.show()
+
+
+# ---------------- Graph 47: Normalized Metrics Heatmap ----------------
+norm_cols = ['TotalCases', 'TotalDeaths', 'TotalRecovered', 'TotalTests']
+norm_data = (top15[norm_cols] - top15[norm_cols].min()) / (top15[norm_cols].max() - top15[norm_cols].min())
+
+fig47 = px.imshow(
+    norm_data,
+    text_auto=True,
+    title="Normalized Heatmap of COVID-19 Metrics"
+)
+fig47.show()
+
+
+# ---------------- Graph 48: Rank Comparison - Cases vs Deaths ----------------
+top15['CasesRank'] = top15['TotalCases'].rank(ascending=False)
+top15['DeathsRank'] = top15['TotalDeaths'].rank(ascending=False)
+
+fig48 = px.scatter(
+    top15,
+    x='CasesRank',
+    y='DeathsRank',
+    text='Country/Region',
+    title="Rank Comparison: Total Cases vs Total Deaths"
+)
+fig48.show()
+
+
+# ---------------- Graph 49: Area Chart - Cumulative Metrics ----------------
+fig49 = px.area(
+    top15,
+    x='Country/Region',
+    y=['TotalCases', 'TotalRecovered', 'TotalDeaths'],
+    title="Cumulative Area Chart of COVID-19 Metrics"
+)
+fig49.show()
+
+
+# ---------------- Graph 50: Funnel Chart - Case Progression ----------------
+funnel_data = top15[['Country/Region', 'TotalCases', 'TotalRecovered', 'TotalDeaths']]
+
+fig50 = px.funnel(
+    funnel_data,
+    x=['TotalCases', 'TotalRecovered', 'TotalDeaths'],
+    y='Country/Region',
+    title="COVID-19 Case Progression Funnel"
+)
+fig50.show()

@@ -351,3 +351,128 @@ fig30 = px.bar(
     title="COVID-19 Tests per Case Ratio (Top 15 Countries)"
 )
 fig30.show()
+# ---------------- Graph 31: Active Cases by Country ----------------
+top15['ActiveCases'] = top15['TotalCases'] - (top15['TotalDeaths'] + top15['TotalRecovered'])
+
+fig31 = px.bar(
+    top15,
+    x='Country/Region',
+    y='ActiveCases',
+    color='ActiveCases',
+    title="Active COVID-19 Cases by Country (Top 15)",
+    height=500,
+    color_continuous_scale='Blues'
+)
+fig31.show()
+
+
+# ---------------- Graph 32: Active vs Recovered Cases ----------------
+fig32 = px.scatter(
+    top15,
+    x='ActiveCases',
+    y='TotalRecovered',
+    size='TotalCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Active Cases vs Recovered Cases"
+)
+fig32.show()
+
+
+# ---------------- Graph 33: Deaths per Million vs Tests per Million ----------------
+top15['DeathsPerMillion'] = (top15['TotalDeaths'] / top15['Population']) * 1e6
+top15['TestsPerMillion'] = (top15['TotalTests'] / top15['Population']) * 1e6
+
+fig33 = px.scatter(
+    top15,
+    x='TestsPerMillion',
+    y='DeathsPerMillion',
+    size='TotalCases',
+    color='Country/Region',
+    title="Deaths per Million vs Tests per Million"
+)
+fig33.show()
+
+
+# ---------------- Graph 34: Recovery vs Death Rate Comparison ----------------
+fig34 = px.bar(
+    top15,
+    x='Country/Region',
+    y=['RecoveryRate', 'DeathRate'],
+    title="Recovery Rate vs Death Rate Comparison",
+    height=500
+)
+fig34.show()
+
+
+# ---------------- Graph 35: Bubble Chart - Active Cases Focus ----------------
+fig35 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='ActiveCases',
+    size='ActiveCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Total Cases vs Active Cases (Bubble = Active Cases)"
+)
+fig35.show()
+
+
+# ---------------- Graph 36: Population vs Total Cases ----------------
+fig36 = px.scatter(
+    top15,
+    x='Population',
+    y='TotalCases',
+    size='TotalCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Population vs Total COVID-19 Cases"
+)
+fig36.show()
+
+
+# ---------------- Graph 37: Stacked Bar - Active, Recovered, Deaths ----------------
+fig37 = px.bar(
+    top15,
+    x='Country/Region',
+    y=['ActiveCases', 'TotalRecovered', 'TotalDeaths'],
+    title="Active vs Recovered vs Deaths (Top 15 Countries)",
+    height=500
+)
+fig37.show()
+
+
+# ---------------- Graph 38: Choropleth Map - Total Cases ----------------
+fig38 = px.choropleth(
+    top15,
+    locations='Country/Region',
+    locationmode='country names',
+    color='TotalCases',
+    hover_name='Country/Region',
+    title="World Map of Total COVID-19 Cases (Top 15)",
+    color_continuous_scale='Reds'
+)
+fig38.show()
+
+
+# ---------------- Graph 39: Choropleth Map - Death Rate ----------------
+fig39 = px.choropleth(
+    top15,
+    locations='Country/Region',
+    locationmode='country names',
+    color='DeathRate',
+    hover_name='Country/Region',
+    title="World Map of COVID-19 Death Rate (%)",
+    color_continuous_scale='OrRd'
+)
+fig39.show()
+
+
+# ---------------- Graph 40: Parallel Coordinates Plot ----------------
+fig40 = px.parallel_coordinates(
+    top15,
+    dimensions=['TotalCases', 'TotalDeaths', 'TotalRecovered', 'TotalTests', 'DeathRate', 'RecoveryRate'],
+    color='TotalCases',
+    title="Parallel Coordinates Plot of COVID-19 Metrics"
+)
+fig40.show()

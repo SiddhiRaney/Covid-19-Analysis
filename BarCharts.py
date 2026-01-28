@@ -457,3 +457,209 @@ fig34 = px.line(
     height=450
 )
 fig34.show()
+# ------------------- STEP 34: Weekly Aggregation -------------------
+
+# Weekly confirmed cases (USA)
+df_US["Week"] = df_US["Date"].dt.to_period("W").astype(str)
+weekly_US = df_US.groupby("Week")[["Confirmed", "Deaths"]].sum().reset_index()
+
+fig35 = px.line(
+    weekly_US,
+    x="Week",
+    y=["Confirmed", "Deaths"],
+    title="Weekly Confirmed vs Deaths (USA)",
+    height=450
+)
+fig35.show()
+
+
+# ------------------- STEP 35: Daily Recovery Rate -------------------
+
+df_US["Recovery_Rate"] = df_US["Recovered"] / df_US["Confirmed"]
+
+fig36 = px.line(
+    df_US,
+    x="Date",
+    y="Recovery_Rate",
+    title="Recovery Rate Over Time (USA)",
+    height=450
+)
+fig36.show()
+
+
+# ------------------- STEP 36: Mortality Rate -------------------
+
+df_US["Mortality_Rate"] = df_US["Deaths"] / df_US["Confirmed"]
+
+fig37 = px.line(
+    df_US,
+    x="Date",
+    y="Mortality_Rate",
+    title="Mortality Rate Trend (USA)",
+    height=450
+)
+fig37.show()
+
+
+# ------------------- STEP 37: Top 5 Countries Animated Line -------------------
+
+top5 = top10.head(5)["Country/Region"].tolist()
+df_top5 = dataset2[dataset2["Country/Region"].isin(top5)]
+
+fig38 = px.line(
+    df_top5,
+    x="Date",
+    y="Confirmed",
+    color="Country/Region",
+    animation_frame="Date",
+    title="Animated Confirmed Cases (Top 5 Countries)",
+    height=500
+)
+fig38.show()
+
+
+# ------------------- STEP 38: Area Chart (Normalized) -------------------
+
+fig39 = px.area(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Recovered", "Deaths"],
+    title="Normalized COVID Metrics (USA)",
+    height=450,
+    groupnorm="percent"
+)
+fig39.show()
+
+
+# ------------------- STEP 39: Scatter Matrix -------------------
+
+fig40 = px.scatter_matrix(
+    df_US,
+    dimensions=["Confirmed", "Recovered", "Deaths"],
+    title="Scatter Matrix of COVID Metrics (USA)",
+    height=500
+)
+fig40.show()
+
+
+# ------------------- STEP 40: Country-wise Growth Rate -------------------
+
+dataset2 = dataset2.sort_values(["Country/Region", "Date"])
+dataset2["Country_Growth"] = dataset2.groupby("Country/Region")["Confirmed"].pct_change()
+
+fig41 = px.line(
+    dataset2,
+    x="Date",
+    y="Country_Growth",
+    color="Country/Region",
+    title="Country-wise Growth Rate Over Time",
+    height=500
+)
+fig41.show()
+
+
+# ------------------- STEP 41: Cumulative Confirmed (Global) -------------------
+
+dataset2["Global_Cumulative"] = dataset2.groupby("Country/Region")["Confirmed"].cumsum()
+
+fig42 = px.line(
+    dataset2,
+    x="Date",
+    y="Global_Cumulative",
+    color="Country/Region",
+    title="Cumulative Confirmed Cases by Country",
+    height=500
+)
+fig42.show()
+
+
+# ------------------- STEP 42: KDE Density Plot -------------------
+
+fig43 = px.density_contour(
+    df_US,
+    x="Confirmed",
+    y="Deaths",
+    title="Density Contour of Confirmed vs Deaths (USA)",
+    height=450
+)
+fig43.show()
+
+
+# ------------------- STEP 43: Ranked Bar Chart -------------------
+
+ranked = latest_global.sort_values("Confirmed", ascending=False)
+
+fig44 = px.bar(
+    ranked,
+    x="Country/Region",
+    y="Confirmed",
+    title="Country Ranking by Confirmed Cases",
+    height=500
+)
+fig44.show()
+
+
+# ------------------- STEP 44: Log-Scale Line Comparison -------------------
+
+fig45 = px.line(
+    df_US,
+    x="Date",
+    y="Confirmed",
+    log_y=True,
+    title="Log-Scale Confirmed Case Trend (USA)",
+    height=450
+)
+fig45.show()
+
+
+# ------------------- STEP 45: Parallel Coordinates -------------------
+
+fig46 = px.parallel_coordinates(
+    df_US,
+    dimensions=["Confirmed", "Recovered", "Deaths"],
+    title="Parallel Coordinates of COVID Metrics (USA)",
+    height=500
+)
+fig46.show()
+
+
+# ------------------- STEP 46: Time-based Bubble Chart -------------------
+
+fig47 = px.scatter(
+    df_US,
+    x="Date",
+    y="Confirmed",
+    size="Deaths",
+    color="Recovered",
+    title="Time-based Bubble Chart (USA)",
+    height=500
+)
+fig47.show()
+
+
+# ------------------- STEP 47: Daily Percentage Change -------------------
+
+df_US["Daily_Percent_Change"] = df_US["Confirmed"].pct_change() * 100
+
+fig48 = px.line(
+    df_US,
+    x="Date",
+    y="Daily_Percent_Change",
+    title="Daily Percentage Change in Confirmed Cases (USA)",
+    height=450
+)
+fig48.show()
+
+
+# ------------------- STEP 48: Rolling Standard Deviation -------------------
+
+df_US["Confirmed_STD7"] = df_US["Confirmed"].rolling(7).std()
+
+fig49 = px.line(
+    df_US,
+    x="Date",
+    y="Confirmed_STD7",
+    title="7-Day Rolling Std Dev of Confirmed Cases (USA)",
+    height=450
+)
+fig49.show()

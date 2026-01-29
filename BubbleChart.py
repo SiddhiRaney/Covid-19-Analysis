@@ -513,3 +513,129 @@ fig41 = px.scatter(dataset1.head(30),
                    size='Serious/Critical/1M pop',
                    size_max=80)
 fig41.show()
+# --------------------------- STEP 21: VACCINATION IMPACT ANALYSIS ---------------------------
+
+# Bubble chart - Vaccination Rate vs Cases per 1M
+# Shows how vaccination coverage impacts spread
+fig42 = px.scatter(dataset1.head(30),
+                   x='VaccinationRate',
+                   y='Cases/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='VaccinationRate',
+                   size='VaccinationRate',
+                   size_max=80)
+fig42.show()
+
+# Bubble chart - Vaccination Rate vs Death Rate
+fig43 = px.scatter(dataset1.head(30),
+                   x='VaccinationRate',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80)
+fig43.show()
+
+
+# --------------------------- STEP 22: POPULATION IMPACT ANALYSIS ---------------------------
+
+# Bubble chart - Population vs TotalCases
+fig44 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='TotalCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalCases',
+                   size='TotalCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig44.show()
+
+# Bubble chart - Population vs Deaths per 1M
+fig45 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='Deaths/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Deaths/1M pop',
+                   size='Deaths/1M pop',
+                   size_max=80,
+                   log_x=True)
+fig45.show()
+
+
+# --------------------------- STEP 23: TESTING ADEQUACY ANALYSIS ---------------------------
+
+# Bubble chart - Tests per Case
+dataset1['Tests_per_Case'] = dataset1['TotalTests'] / dataset1['TotalCases']
+
+fig46 = px.scatter(dataset1.head(30),
+                   x='Country/Region',
+                   y='Tests_per_Case',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Tests_per_Case',
+                   size='Tests_per_Case',
+                   size_max=80)
+fig46.show()
+
+# Bubble chart - Tests per Case vs Death Rate
+fig47 = px.scatter(dataset1.head(30),
+                   x='Tests_per_Case',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80)
+fig47.show()
+
+
+# --------------------------- STEP 24: PANDEMIC SEVERITY INDEX ---------------------------
+
+# Creating a composite severity score
+dataset1['SeverityIndex'] = (
+    dataset1['Deaths/1M pop'] * 0.4 +
+    dataset1['Serious/Critical/1M pop'] * 0.3 +
+    dataset1['Cases/1M pop'] * 0.3
+)
+
+# Bubble chart - Country vs Severity Index
+fig48 = px.scatter(dataset1.head(30),
+                   x='Country/Region',
+                   y='SeverityIndex',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='SeverityIndex',
+                   size='SeverityIndex',
+                   size_max=80)
+fig48.show()
+
+# Bubble chart - Severity Index vs Recovery Rate
+fig49 = px.scatter(dataset1.head(30),
+                   x='SeverityIndex',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig49.show()
+
+
+# --------------------------- STEP 25: CONTINENTAL RISK COMPARISON ---------------------------
+
+# Bubble chart - Continent vs Avg Severity Index
+continent_severity = dataset1.groupby('Continent')['SeverityIndex'].mean().reset_index()
+
+fig50 = px.scatter(continent_severity,
+                   x='Continent',
+                   y='SeverityIndex',
+                   color='SeverityIndex',
+                   size='SeverityIndex',
+                   size_max=80)
+fig50.show()
+
+
+# --------------------------- STEP 26: HEALTHCARE CAPACITY STRESS ---------------------------
+
+# Bubble chart - Critical Ratio vs Active Ratio
+dataset1['CriticalRatio'] = dataset1['Serious/Critical'] / dataset1['ActiveCases']
+
+fig51 = px.scatter(dataset1.head(30),
+                   x='Critical

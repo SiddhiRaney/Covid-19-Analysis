@@ -435,3 +435,185 @@ px.line(
     height=400,
     title="Pandemic Phase Indicator"
 ).show()
+# ---------------- Wave Strength Index ----------------
+df_US["WaveStrength"] = df_US["New cases"].rolling(14).max() / (df_US["New cases"].rolling(14).mean() + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="WaveStrength",
+    height=400,
+    title="Wave Strength Index (Peak / Avg New Cases)"
+).show()
+
+
+# ---------------- Recovery Efficiency ----------------
+df_US["RecoveryEfficiency"] = df_US["RecoveredChange"] / (df_US["New cases"] + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="RecoveryEfficiency",
+    height=400,
+    title="Recovery Efficiency (Recovered Change / New Cases)"
+).show()
+
+
+# ---------------- Fatality Acceleration ----------------
+df_US["FatalityAccel"] = df_US["New deaths"].diff().diff()
+
+px.line(
+    df_US,
+    x="Date",
+    y="FatalityAccel",
+    height=400,
+    title="Fatality Acceleration (2nd Derivative of Deaths)"
+).show()
+
+
+# ---------------- Case Resolution Speed ----------------
+df_US["ResolutionSpeed"] = df_US["ClosedCases"].pct_change() * 100
+
+px.line(
+    df_US,
+    x="Date",
+    y="ResolutionSpeed",
+    height=400,
+    title="Case Resolution Speed (% Change in Closed Cases)"
+).show()
+
+
+# ---------------- Stress Index ----------------
+df_US["StressIndex"] = df_US["Active"] / (df_US["Recovered"] + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="StressIndex",
+    height=400,
+    title="Healthcare Stress Index (Active / Recovered)"
+).show()
+
+
+# ---------------- Infection Momentum ----------------
+df_US["InfectionMomentum"] = df_US["New cases"] / df_US["Confirmed"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="InfectionMomentum",
+    height=400,
+    title="Infection Momentum (New / Confirmed)"
+).show()
+
+
+# ---------------- Death Burden Index ----------------
+df_US["DeathBurden"] = df_US["Deaths"] / df_US["Active"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="DeathBurden",
+    height=400,
+    title="Death Burden Index (Deaths / Active)"
+).show()
+
+
+# ---------------- Recovery Dominance ----------------
+df_US["RecoveryDominance"] = df_US["Recovered"] / (df_US["Recovered"] + df_US["Deaths"])
+
+px.line(
+    df_US,
+    x="Date",
+    y="RecoveryDominance",
+    height=400,
+    title="Recovery Dominance Ratio"
+).show()
+
+
+# ---------------- Pandemic Energy ----------------
+df_US["PandemicEnergy"] = df_US["New cases"] * df_US["DailyGrowthRate"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="PandemicEnergy",
+    height=400,
+    title="Pandemic Energy (New Cases × Growth Rate)"
+).show()
+
+
+# ---------------- Case Exhaustion Index ----------------
+df_US["ExhaustionIndex"] = df_US["New cases"].rolling(7).mean() / (df_US["Active"] + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="ExhaustionIndex",
+    height=400,
+    title="Case Exhaustion Index"
+).show()
+
+
+# ---------------- Recovery Lead Indicator ----------------
+df_US["RecoveryLead"] = df_US["Recovered"].shift(-7) - df_US["New cases"]
+
+px.line(
+    df_US,
+    x="Date",
+    y="RecoveryLead",
+    height=400,
+    title="Recovery Lead Indicator (7-Day Lead)"
+).show()
+
+
+# ---------------- Pandemic Pressure Index ----------------
+df_US["PressureIndex"] = (
+    df_US["New cases"] + df_US["Active"]
+) / (df_US["Recovered"] + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="PressureIndex",
+    height=400,
+    title="Pandemic Pressure Index"
+).show()
+
+
+# ---------------- Mortality Risk Trend ----------------
+df_US["MortalityRisk"] = df_US["New deaths"] / (df_US["Active"] + 1)
+
+px.line(
+    df_US,
+    x="Date",
+    y="MortalityRisk",
+    height=400,
+    title="Mortality Risk Trend"
+).show()
+
+
+# ---------------- Recovery Stability ----------------
+df_US["RecoveryStability"] = df_US["Recovered"].rolling(14).std()
+
+px.line(
+    df_US,
+    x="Date",
+    y="RecoveryStability",
+    height=400,
+    title="Recovery Stability (14-Day Std Dev)"
+).show()
+
+
+# ---------------- Pandemic Turning Point Signal ----------------
+df_US["TurningPointSignal"] = (
+    df_US["New cases"].diff() + df_US["Active"].diff()
+)
+
+px.line(
+    df_US,
+    x="Date",
+    y="TurningPointSignal",
+    height=400,
+    title="Pandemic Turning Point Signal"
+).show()

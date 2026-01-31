@@ -606,3 +606,144 @@ fig50 = px.funnel(
     title="COVID-19 Case Progression Funnel"
 )
 fig50.show()
+# ---------------- Graph 51: Case Severity Index ----------------
+top15['CaseSeverityIndex'] = (top15['TotalDeaths'] / top15['TotalRecovered']) * 100
+
+fig51 = px.bar(
+    top15,
+    x='Country/Region',
+    y='CaseSeverityIndex',
+    color='CaseSeverityIndex',
+    title="Case Severity Index by Country",
+    color_continuous_scale='Reds'
+)
+fig51.show()
+
+
+# ---------------- Graph 52: Healthcare Stress Indicator ----------------
+top15['HealthcareStress'] = top15['ActiveCases'] / top15['TotalTests']
+
+fig52 = px.scatter(
+    top15,
+    x='HealthcareStress',
+    y='ActiveCases',
+    size='TotalCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Healthcare Stress vs Active Cases"
+)
+fig52.show()
+
+
+# ---------------- Graph 53: Deaths as % of Closed Cases ----------------
+top15['DeathShareClosed'] = (top15['TotalDeaths'] / (top15['TotalDeaths'] + top15['TotalRecovered'])) * 100
+
+fig53 = px.bar(
+    top15,
+    x='Country/Region',
+    y='DeathShareClosed',
+    color='DeathShareClosed',
+    title="Deaths as Percentage of Closed Cases",
+    color_continuous_scale='OrRd'
+)
+fig53.show()
+
+
+# ---------------- Graph 54: Recovery Momentum ----------------
+top15['RecoveryMomentum'] = top15['TotalRecovered'] / top15['TotalCases']
+
+fig54 = px.scatter(
+    top15,
+    x='RecoveryMomentum',
+    y='TotalRecovered',
+    size='TotalCases',
+    color='Country/Region',
+    title="Recovery Momentum Analysis"
+)
+fig54.show()
+
+
+# ---------------- Graph 55: Active Case Burden per Million ----------------
+top15['ActivePerMillion'] = (top15['ActiveCases'] / top15['Population']) * 1e6
+
+fig55 = px.bar(
+    top15,
+    x='Country/Region',
+    y='ActivePerMillion',
+    color='ActivePerMillion',
+    title="Active COVID-19 Cases per Million Population",
+    color_continuous_scale='Blues'
+)
+fig55.show()
+
+
+# ---------------- Graph 56: Testing Effectiveness ----------------
+top15['TestingEffectiveness'] = top15['TotalRecovered'] / top15['TotalTests']
+
+fig56 = px.scatter(
+    top15,
+    x='TotalTests',
+    y='TestingEffectiveness',
+    size='TotalCases',
+    color='Continent',
+    title="Testing Effectiveness vs Total Tests"
+)
+fig56.show()
+
+
+# ---------------- Graph 57: Deaths vs Active Rate ----------------
+fig57 = px.scatter(
+    top15,
+    x='ActiveRate',
+    y='DeathRate',
+    size='TotalCases',
+    color='Country/Region',
+    title="Active Rate vs Death Rate"
+)
+fig57.show()
+
+
+# ---------------- Graph 58: Country-wise Metric Profile (Radar - Multi) ----------------
+radar_data = top15.melt(
+    id_vars=['Country/Region'],
+    value_vars=['TotalCases', 'TotalDeaths', 'TotalRecovered']
+)
+
+fig58 = px.line_polar(
+    radar_data,
+    r='value',
+    theta='variable',
+    color='Country/Region',
+    line_close=True,
+    title="Multi-Metric Radar Comparison"
+)
+fig58.show()
+
+
+# ---------------- Graph 59: Population Share vs Case Share ----------------
+top15['CaseShare'] = top15['TotalCases'] / top15['TotalCases'].sum() * 100
+top15['PopulationShare'] = top15['Population'] / top15['Population'].sum() * 100
+
+fig59 = px.scatter(
+    top15,
+    x='PopulationShare',
+    y='CaseShare',
+    size='TotalCases',
+    color='Country/Region',
+    title="Population Share vs COVID-19 Case Share"
+)
+fig59.show()
+
+
+# ---------------- Graph 60: Country Risk Index ----------------
+top15['RiskIndex'] = (top15['DeathRate'] * top15['ActiveRate']) / 100
+
+fig60 = px.bar(
+    top15,
+    x='Country/Region',
+    y='RiskIndex',
+    color='RiskIndex',
+    title="Overall COVID-19 Risk Index by Country",
+    color_continuous_scale='Reds'
+)
+fig60.show()

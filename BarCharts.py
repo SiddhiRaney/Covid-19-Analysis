@@ -663,3 +663,234 @@ fig49 = px.line(
     height=450
 )
 fig49.show()
+# ------------------- STEP 50: Monthly Aggregation -------------------
+
+# Monthly confirmed & deaths (USA)
+df_US["Month"] = df_US["Date"].dt.to_period("M").astype(str)
+monthly_US = df_US.groupby("Month")[["Confirmed", "Deaths", "Recovered"]].sum().reset_index()
+
+fig50 = px.line(
+    monthly_US,
+    x="Month",
+    y=["Confirmed", "Deaths", "Recovered"],
+    title="Monthly COVID-19 Trends (USA)",
+    height=450
+)
+fig50.show()
+
+
+# ------------------- STEP 51: Month-wise Bar Comparison -------------------
+
+fig51 = px.bar(
+    monthly_US,
+    x="Month",
+    y=["Confirmed", "Deaths", "Recovered"],
+    title="Month-wise COVID-19 Comparison (USA)",
+    height=500
+)
+fig51.show()
+
+
+# ------------------- STEP 52: Rolling Median -------------------
+
+df_US["Confirmed_Median7"] = df_US["Confirmed"].rolling(7).median()
+
+fig52 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Confirmed_Median7"],
+    title="Confirmed vs 7-Day Rolling Median (USA)",
+    height=450
+)
+fig52.show()
+
+
+# ------------------- STEP 53: Recovery vs Death Ratio -------------------
+
+df_US["Recovery_Death_Ratio"] = df_US["Recovered"] / df_US["Deaths"]
+
+fig53 = px.line(
+    df_US,
+    x="Date",
+    y="Recovery_Death_Ratio",
+    title="Recovery to Death Ratio Over Time (USA)",
+    height=450
+)
+fig53.show()
+
+
+# ------------------- STEP 54: Daily Death Growth -------------------
+
+df_US["New_Deaths"] = df_US["Deaths"].diff()
+
+fig54 = px.line(
+    df_US,
+    x="Date",
+    y="New_Deaths",
+    title="Daily New Deaths (USA)",
+    height=450
+)
+fig54.show()
+
+
+# ------------------- STEP 55: Scatter – Tests vs Confirmed (If Exists) -------------------
+
+if "Tests" in df_US.columns:
+    fig55 = px.scatter(
+        df_US,
+        x="Tests",
+        y="Confirmed",
+        size="Deaths",
+        title="Tests vs Confirmed Cases (USA)",
+        height=450
+    )
+    fig55.show()
+
+
+# ------------------- STEP 56: Country-wise Latest Snapshot -------------------
+
+snapshot = dataset2[dataset2["Date"] == dataset2["Date"].max()]
+
+fig56 = px.scatter(
+    snapshot,
+    x="Confirmed",
+    y="Deaths",
+    size="Recovered",
+    color="Country/Region",
+    title="Latest COVID Snapshot by Country",
+    height=500
+)
+fig56.show()
+
+
+# ------------------- STEP 57: Rank Change Over Time -------------------
+
+dataset2["Rank"] = dataset2.groupby("Date")["Confirmed"].rank(ascending=False)
+
+fig57 = px.line(
+    dataset2,
+    x="Date",
+    y="Rank",
+    color="Country/Region",
+    title="Country Rank Change Over Time (Confirmed Cases)",
+    height=500
+)
+fig57.update_yaxes(autorange="reversed")
+fig57.show()
+
+
+# ------------------- STEP 58: Heatmap – Weekly Trend -------------------
+
+weekly_heat = df_US.groupby(["Week"])[["Confirmed", "Deaths", "Recovered"]].sum().reset_index()
+
+fig58 = px.imshow(
+    weekly_heat.set_index("Week"),
+    title="Weekly Heatmap of COVID Metrics (USA)",
+    height=500
+)
+fig58.show()
+
+
+# ------------------- STEP 59: Rolling Correlation -------------------
+
+df_US["Rolling_Corr"] = df_US["Confirmed"].rolling(14).corr(df_US["Deaths"])
+
+fig59 = px.line(
+    df_US,
+    x="Date",
+    y="Rolling_Corr",
+    title="14-Day Rolling Correlation (Confirmed vs Deaths) - USA",
+    height=450
+)
+fig59.show()
+
+
+# ------------------- STEP 60: Area Chart – Deaths vs Recoveries -------------------
+
+fig60 = px.area(
+    df_US,
+    x="Date",
+    y=["Deaths", "Recovered"],
+    title="Deaths vs Recoveries Over Time (USA)",
+    height=450
+)
+fig60.show()
+
+
+# ------------------- STEP 61: Country-wise Recovery Rate -------------------
+
+dataset2["Country_Recovery_Rate"] = dataset2["Recovered"] / dataset2["Confirmed"]
+
+fig61 = px.line(
+    dataset2,
+    x="Date",
+    y="Country_Recovery_Rate",
+    color="Country/Region",
+    title="Country-wise Recovery Rate Over Time",
+    height=500
+)
+fig61.show()
+
+
+# ------------------- STEP 62: Country-wise Mortality Rate -------------------
+
+dataset2["Country_Mortality_Rate"] = dataset2["Deaths"] / dataset2["Confirmed"]
+
+fig62 = px.line(
+    dataset2,
+    x="Date",
+    y="Country_Mortality_Rate",
+    color="Country/Region",
+    title="Country-wise Mortality Rate Over Time",
+    height=500
+)
+fig62.show()
+
+
+# ------------------- STEP 63: Peak Detection Visualization -------------------
+
+fig63 = px.scatter(
+    df_US,
+    x="Date",
+    y="New_Confirmed",
+    title="Peak Detection – Daily New Confirmed Cases (USA)",
+    height=450
+)
+fig63.show()
+
+
+# ------------------- STEP 64: Log-Scale Scatter -------------------
+
+fig64 = px.scatter(
+    df_US,
+    x="Confirmed",
+    y="Deaths",
+    log_x=True,
+    log_y=True,
+    title="Log-Log Scatter: Confirmed vs Deaths (USA)",
+    height=450
+)
+fig64.show()
+
+
+# ------------------- STEP 65: Final Summary Dashboard Metric -------------------
+
+summary = {
+    "Total Confirmed": df_US["Confirmed"].max(),
+    "Total Deaths": df_US["Deaths"].max(),
+    "Total Recovered": df_US["Recovered"].max()
+}
+
+summary_df = px.data.tips()  # placeholder for structure
+summary_df = summary_df.iloc[:3]
+summary_df["Metric"] = list(summary.keys())
+summary_df["Value"] = list(summary.values())
+
+fig65 = px.bar(
+    summary_df,
+    x="Metric",
+    y="Value",
+    title="Final COVID-19 Summary Metrics (USA)",
+    height=400
+)
+fig65.show()

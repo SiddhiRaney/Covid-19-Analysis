@@ -639,3 +639,134 @@ dataset1['CriticalRatio'] = dataset1['Serious/Critical'] / dataset1['ActiveCases
 
 fig51 = px.scatter(dataset1.head(30),
                    x='Critical
+# --------------------------- STEP 26: HEALTHCARE CAPACITY STRESS (CONTINUED) ---------------------------
+
+# Bubble chart - Critical Ratio vs Active Ratio
+dataset1['CriticalRatio'] = dataset1['Serious/Critical'] / dataset1['ActiveCases']
+
+fig51 = px.scatter(dataset1.head(30),
+                   x='ActiveRatio',
+                   y='CriticalRatio',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='CriticalRatio',
+                   size='CriticalRatio',
+                   size_max=80)
+fig51.show()
+
+
+# --------------------------- STEP 27: CASE FATALITY DYNAMICS ---------------------------
+
+# Bubble chart - Case Fatality Rate vs Total Cases
+fig52 = px.scatter(dataset1.head(30),
+                   x='TotalCases',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80,
+                   log_x=True)
+fig52.show()
+
+# Bubble chart - Case Fatality Rate vs Tests per Case
+fig53 = px.scatter(dataset1.head(30),
+                   x='Tests_per_Case',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80)
+fig53.show()
+
+
+# --------------------------- STEP 28: TESTING EFFECTIVENESS ---------------------------
+
+# Bubble chart - Tests per 1M vs Tests per Case
+fig54 = px.scatter(dataset1.head(30),
+                   x='Tests/1M pop',
+                   y='Tests_per_Case',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Tests_per_Case',
+                   size='Tests_per_Case',
+                   size_max=80,
+                   log_x=True)
+fig54.show()
+
+# Bubble chart - Tests per Case vs Recovery Rate
+fig55 = px.scatter(dataset1.head(30),
+                   x='Tests_per_Case',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig55.show()
+
+
+# --------------------------- STEP 29: ACTIVE BURDEN VS OUTCOME ---------------------------
+
+# Bubble chart - ActiveCases vs Death Rate
+fig56 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80,
+                   log_x=True)
+fig56.show()
+
+# Bubble chart - ActiveCases per 1M vs Recovery Rate
+fig57 = px.scatter(dataset1.head(30),
+                   x='Active/1M pop',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig57.show()
+
+
+# --------------------------- STEP 30: PANDEMIC CONTROL INDICATORS ---------------------------
+
+# Bubble chart - Positivity Proxy vs Death Rate
+fig58 = px.scatter(dataset1.head(30),
+                   x='Cases_per_Test',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Cases_per_Test',
+                   size='Cases_per_Test',
+                   size_max=80)
+fig58.show()
+
+# Bubble chart - Positivity Proxy vs Recovery Rate
+fig59 = px.scatter(dataset1.head(30),
+                   x='Cases_per_Test',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig59.show()
+
+
+# --------------------------- STEP 31: GLOBAL RISK PROFILING ---------------------------
+
+# Bubble chart - Severity Index vs Death Rate
+fig60 = px.scatter(dataset1.head(30),
+                   x='SeverityIndex',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='SeverityIndex',
+                   size='SeverityIndex',
+                   size_max=80)
+fig60.show()
+
+# Bubble chart - Severity Index vs Active Ratio
+fig61 = px.scatter(dataset1.head(30),
+                   x='SeverityIndex',
+                   y='ActiveRatio',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveRatio',
+                   size='ActiveRatio',
+                   size_max=80)
+fig61.show()

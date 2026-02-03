@@ -617,3 +617,107 @@ px.line(
     height=400,
     title="Pandemic Turning Point Signal"
 ).show()
+# ---------------- Reproduction Proxy (R_t Approximation) ----------------
+df_US["Rt_Proxy"] = df_US["New cases"] / df_US["New cases"].shift(7)
+
+px.line(
+    df_US, x="Date", y="Rt_Proxy",
+    height=400,
+    title="Reproduction Number Proxy (Rₜ Approximation)"
+).show()
+
+
+# ---------------- Case Momentum Index ----------------
+df_US["CaseMomentum"] = df_US["New cases"].diff()
+
+px.line(
+    df_US, x="Date", y="CaseMomentum",
+    height=400,
+    title="Case Momentum (Daily Change in New Cases)"
+).show()
+
+
+# ---------------- Fatality Lag Ratio (Deaths / Cases 14-Day Lag) ----------------
+df_US["FatalityLagRatio"] = df_US["New deaths"] / df_US["New cases"].shift(14)
+
+px.line(
+    df_US, x="Date", y="FatalityLagRatio",
+    height=400,
+    title="Fatality Lag Ratio (Deaths / Cases with 14-Day Lag)"
+).show()
+
+
+# ---------------- Recovery-to-Active Momentum ----------------
+df_US["RecoveryActiveMomentum"] = df_US["Recovered"].diff() / (df_US["Active"] + 1)
+
+px.line(
+    df_US, x="Date", y="RecoveryActiveMomentum",
+    height=400,
+    title="Recovery-to-Active Momentum"
+).show()
+
+
+# ---------------- Case Saturation Index ----------------
+df_US["CaseSaturation"] = df_US["Confirmed"] / df_US["Confirmed"].rolling(30).max()
+
+px.line(
+    df_US, x="Date", y="CaseSaturation",
+    height=400,
+    title="Case Saturation Index"
+).show()
+
+
+# ---------------- Mortality Volatility ----------------
+df_US["DeathVolatility"] = df_US["New deaths"].rolling(7).std()
+
+px.line(
+    df_US, x="Date", y="DeathVolatility",
+    height=400,
+    title="7-Day Mortality Volatility"
+).show()
+
+
+# ---------------- Healthcare Relief Index ----------------
+df_US["ReliefIndex"] = df_US["RecoveredChange"] / (df_US["New deaths"] + 1)
+
+px.line(
+    df_US, x="Date", y="ReliefIndex",
+    height=400,
+    title="Healthcare Relief Index"
+).show()
+
+
+# ---------------- Infection Deceleration Index ----------------
+df_US["InfectionDecel"] = -df_US["TransmissionAccel"]
+
+px.line(
+    df_US, x="Date", y="InfectionDecel",
+    height=400,
+    title="Infection Deceleration Index"
+).show()
+
+
+# ---------------- Pandemic Resilience Score ----------------
+df_US["ResilienceScore"] = (
+    df_US["Recovered"] /
+    (df_US["Active"] + df_US["Deaths"] + 1)
+)
+
+px.line(
+    df_US, x="Date", y="ResilienceScore",
+    height=400,
+    title="Pandemic Resilience Score"
+).show()
+
+
+# ---------------- Early Warning Signal ----------------
+df_US["EarlyWarning"] = (
+    df_US["New cases"].rolling(7).mean() /
+    (df_US["Recovered"].rolling(7).mean() + 1)
+)
+
+px.line(
+    df_US, x="Date", y="EarlyWarning",
+    height=400,
+    title="Early Warning Signal (Cases vs Recovery)"
+).show()

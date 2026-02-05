@@ -747,3 +747,137 @@ fig60 = px.bar(
     color_continuous_scale='Reds'
 )
 fig60.show()
+# ---------------- Graph 61: Fatality vs Recovery Tradeoff ----------------
+fig61 = px.scatter(
+    top15,
+    x='RecoveryRate',
+    y='DeathRate',
+    size='ActiveCases',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Fatality vs Recovery Tradeoff (Bubble = Active Cases)"
+)
+fig61.show()
+
+
+# ---------------- Graph 62: Testing Coverage (%) ----------------
+top15['TestingCoverage'] = (top15['TotalTests'] / top15['Population']) * 100
+
+fig62 = px.bar(
+    top15,
+    x='Country/Region',
+    y='TestingCoverage',
+    color='TestingCoverage',
+    title="Testing Coverage Percentage by Country",
+    color_continuous_scale='Blues'
+)
+fig62.show()
+
+
+# ---------------- Graph 63: Active Case Load vs Population ----------------
+fig63 = px.scatter(
+    top15,
+    x='Population',
+    y='ActiveCases',
+    size='ActiveCases',
+    color='Continent',
+    title="Active Case Load vs Population"
+)
+fig63.show()
+
+
+# ---------------- Graph 64: Recovery Speed Index ----------------
+top15['RecoverySpeed'] = top15['TotalRecovered'] / (top15['TotalRecovered'] + top15['ActiveCases'])
+
+fig64 = px.bar(
+    top15,
+    x='Country/Region',
+    y='RecoverySpeed',
+    color='RecoverySpeed',
+    title="Recovery Speed Index by Country",
+    color_continuous_scale='Greens'
+)
+fig64.show()
+
+
+# ---------------- Graph 65: Death Burden vs Case Burden ----------------
+fig65 = px.scatter(
+    top15,
+    x='CaseShare',
+    y='DeathShareClosed',
+    size='TotalCases',
+    color='Country/Region',
+    title="Death Burden vs Case Burden"
+)
+fig65.show()
+
+
+# ---------------- Graph 66: Tests Needed per Death ----------------
+top15['TestsPerDeath'] = top15['TotalTests'] / top15['TotalDeaths']
+
+fig66 = px.bar(
+    top15,
+    x='Country/Region',
+    y='TestsPerDeath',
+    color='TestsPerDeath',
+    title="Tests Needed per Death",
+    color_continuous_scale='Purples'
+)
+fig66.show()
+
+
+# ---------------- Graph 67: Active Case Dominance ----------------
+fig67 = px.bar(
+    top15,
+    x='Country/Region',
+    y=['ActiveCases', 'TotalRecovered'],
+    title="Active vs Recovered Case Dominance",
+    height=500
+)
+fig67.show()
+
+
+# ---------------- Graph 68: Population Risk Exposure ----------------
+top15['PopulationRisk'] = top15['ActiveCases'] / top15['Population'] * 100
+
+fig68 = px.bar(
+    top15,
+    x='Country/Region',
+    y='PopulationRisk',
+    color='PopulationRisk',
+    title="Population Risk Exposure (%)",
+    color_continuous_scale='Reds'
+)
+fig68.show()
+
+
+# ---------------- Graph 69: Healthcare Load Index ----------------
+top15['HealthcareLoad'] = top15['ActiveCases'] / top15['TotalRecovered']
+
+fig69 = px.scatter(
+    top15,
+    x='HealthcareLoad',
+    y='ActiveCases',
+    size='TotalCases',
+    color='Continent',
+    title="Healthcare Load Index vs Active Cases"
+)
+fig69.show()
+
+
+# ---------------- Graph 70: Composite Severity Score ----------------
+top15['SeverityScore'] = (
+    top15['DeathRate'] * 0.5 +
+    top15['ActiveRate'] * 0.3 +
+    top15['TestingCoverage'] * 0.2
+)
+
+fig70 = px.bar(
+    top15,
+    x='Country/Region',
+    y='SeverityScore',
+    color='SeverityScore',
+    title="Composite COVID-19 Severity Score",
+    color_continuous_scale='OrRd'
+)
+fig70.show()

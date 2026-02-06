@@ -894,3 +894,144 @@ fig65 = px.bar(
     height=400
 )
 fig65.show()
+# ------------------- STEP 66–75: Additional Advanced Visualizations -------------------
+
+# STEP 66: Rolling Min–Max Band
+df_US["Rolling_Min7"] = df_US["Confirmed"].rolling(7).min()
+df_US["Rolling_Max7"] = df_US["Confirmed"].rolling(7).max()
+
+fig66 = px.line(
+    df_US,
+    x="Date",
+    y=["Rolling_Min7", "Rolling_Max7"],
+    title="7-Day Rolling Min–Max Band (USA)",
+    height=450
+)
+fig66.show()
+
+
+# STEP 67: Acceleration (Second Difference)
+df_US["Acceleration"] = df_US["New_Confirmed"].diff()
+
+fig67 = px.line(
+    df_US,
+    x="Date",
+    y="Acceleration",
+    title="Acceleration of Confirmed Cases (USA)",
+    height=450
+)
+fig67.show()
+
+
+# STEP 68: Z-Score Normalization
+df_US["Confirmed_Z"] = (
+    df_US["Confirmed"] - df_US["Confirmed"].mean()
+) / df_US["Confirmed"].std()
+
+fig68 = px.line(
+    df_US,
+    x="Date",
+    y="Confirmed_Z",
+    title="Z-Score Normalized Confirmed Cases (USA)",
+    height=450
+)
+fig68.show()
+
+
+# STEP 69: USA Share of Global Cases
+global_daily = dataset2.groupby("Date")["Confirmed"].sum().reset_index()
+merged = df_US.merge(global_daily, on="Date", suffixes=("_US", "_Global"))
+
+merged["US_Global_Share"] = merged["Confirmed_US"] / merged["Confirmed_Global"]
+
+fig69 = px.line(
+    merged,
+    x="Date",
+    y="US_Global_Share",
+    title="USA Share of Global Confirmed Cases",
+    height=450
+)
+fig69.show()
+
+
+# STEP 70: Country Volatility Plot
+rank_var = dataset2.groupby("Country/Region")["Confirmed"].std().reset_index()
+
+fig70 = px.bar(
+    rank_var.sort_values("Confirmed", ascending=False).head(15),
+    x="Country/Region",
+    y="Confirmed",
+    title="Volatility in Confirmed Cases by Country",
+    height=450
+)
+fig70.show()
+
+
+# STEP 71: Normalized Country Comparison
+df_top_norm = df_top.copy()
+df_top_norm["Norm"] = df_top_norm.groupby("Country/Region")["Confirmed"]\
+    .transform(lambda x: x / x.max())
+
+fig71 = px.line(
+    df_top_norm,
+    x="Date",
+    y="Norm",
+    color="Country/Region",
+    title="Normalized Country Comparison",
+    height=500
+)
+fig71.show()
+
+
+# STEP 72: Peak Highlight Visualization
+peak_val = df_US["New_Confirmed"].max()
+
+fig72 = px.line(
+    df_US,
+    x="Date",
+    y="New_Confirmed",
+    title="Peak Highlight – Daily Cases (USA)"
+)
+
+fig72.add_scatter(
+    x=df_US[df_US["New_Confirmed"] == peak_val]["Date"],
+    y=[peak_val],
+    mode="markers",
+    marker=dict(size=12)
+)
+fig72.show()
+
+
+# STEP 73: Log Growth Comparison
+fig73 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Recovered"],
+    log_y=True,
+    title="Log Growth Comparison (USA)",
+    height=450
+)
+fig73.show()
+
+
+# STEP 74: Country Contribution Pie
+country_total = latest_global.groupby("Country/Region")["Confirmed"].sum().reset_index()
+
+fig74 = px.pie(
+    country_total.nlargest(8, "Confirmed"),
+    values="Confirmed",
+    names="Country/Region",
+    title="Top Country Contribution to Global Cases"
+)
+fig74.show()
+
+
+# STEP 75: Multi-Metric Trend Dashboard
+fig75 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Deaths", "Recovered", "New_Confirmed"],
+    title="Multi-Metric COVID Trend (USA)",
+    height=500
+)
+fig75.show()

@@ -770,3 +770,131 @@ fig61 = px.scatter(dataset1.head(30),
                    size='ActiveRatio',
                    size_max=80)
 fig61.show()
+# --------------------------- STEP 32: MORTALITY PRESSURE ANALYSIS ---------------------------
+
+# Bubble chart - Deaths vs Serious/Critical
+fig62 = px.scatter(dataset1.head(30),
+                   x='Serious/Critical',
+                   y='TotalDeaths',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalDeaths',
+                   size='Serious/Critical',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig62.show()
+
+
+# --------------------------- STEP 33: TEST DETECTION EFFICIENCY ---------------------------
+
+# Bubble chart - Tests vs Detected Cases Ratio
+dataset1['DetectionEfficiency'] = dataset1['TotalCases'] / dataset1['TotalTests']
+
+fig63 = px.scatter(dataset1.head(30),
+                   x='TotalTests',
+                   y='DetectionEfficiency',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DetectionEfficiency',
+                   size='DetectionEfficiency',
+                   size_max=80,
+                   log_x=True)
+fig63.show()
+
+
+# --------------------------- STEP 34: RECOVERY BURDEN ---------------------------
+
+# Bubble chart - ActiveCases vs TotalRecovered
+fig64 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='TotalRecovered',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalRecovered',
+                   size='ActiveCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig64.show()
+
+
+# --------------------------- STEP 35: POPULATION NORMALIZED SEVERITY ---------------------------
+
+dataset1['Deaths_to_Cases'] = dataset1['TotalDeaths'] / dataset1['TotalCases']
+
+fig65 = px.scatter(dataset1.head(30),
+                   x='Cases/1M pop',
+                   y='Deaths_to_Cases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Deaths_to_Cases',
+                   size='Deaths_to_Cases',
+                   size_max=80)
+fig65.show()
+
+
+# --------------------------- STEP 36: HEALTHCARE LOAD DISTRIBUTION ---------------------------
+
+fig66 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='Serious/Critical',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='Serious/Critical',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig66.show()
+
+
+# --------------------------- STEP 37: TESTING COVERAGE VS ACTIVE CASES ---------------------------
+
+fig67 = px.scatter(dataset1.head(30),
+                   x='Tests/1M pop',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='ActiveCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig67.show()
+
+
+# --------------------------- STEP 38: CONTINENTAL BURDEN DISTRIBUTION ---------------------------
+
+continent_sum = dataset1.groupby('Continent').sum(numeric_only=True).reset_index()
+
+fig68 = px.scatter(continent_sum,
+                   x='TotalCases',
+                   y='TotalDeaths',
+                   hover_data=['Continent'],
+                   color='Continent',
+                   size='TotalCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig68.show()
+
+
+# --------------------------- STEP 39: CRITICAL CARE SHARE ---------------------------
+
+dataset1['CriticalShare'] = dataset1['Serious/Critical'] / dataset1['TotalCases']
+
+fig69 = px.scatter(dataset1.head(30),
+                   x='CriticalShare',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='CriticalShare',
+                   size='CriticalShare',
+                   size_max=80)
+fig69.show()
+
+
+# --------------------------- STEP 40: GLOBAL OUTCOME BALANCE ---------------------------
+
+fig70 = px.scatter(dataset1.head(30),
+                   x='RecoveryRate',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig70.show()

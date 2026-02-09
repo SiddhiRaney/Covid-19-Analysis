@@ -881,3 +881,124 @@ fig70 = px.bar(
     color_continuous_scale='OrRd'
 )
 fig70.show()
+# ===================== ADDITIONAL VISUALIZATIONS (71–80) =====================
+
+# ---------------- Graph 71: Cases per Million ----------------
+top15['CasesPerMillion'] = (top15['TotalCases'] / top15['Population']) * 1e6
+
+fig71 = px.bar(
+    top15,
+    x='Country/Region',
+    y='CasesPerMillion',
+    color='CasesPerMillion',
+    title="COVID-19 Cases per Million Population",
+    color_continuous_scale='Reds'
+)
+fig71.show()
+
+
+# ---------------- Graph 72: Recovery Rate vs Testing Coverage ----------------
+fig72 = px.scatter(
+    top15,
+    x='TestingCoverage',
+    y='RecoveryRate',
+    size='TotalCases',
+    color='Continent',
+    title="Recovery Rate vs Testing Coverage"
+)
+fig72.show()
+
+
+# ---------------- Graph 73: Mortality vs Population Risk ----------------
+fig73 = px.scatter(
+    top15,
+    x='PopulationRisk',
+    y='DeathRate',
+    size='TotalCases',
+    color='Country/Region',
+    title="Mortality vs Population Risk"
+)
+fig73.show()
+
+
+# ---------------- Graph 74: Active Case Ratio Heatmap ----------------
+heat_data = top15.pivot_table(
+    values='ActiveRate',
+    index='Continent',
+    columns='Country/Region'
+)
+
+fig74 = px.imshow(
+    heat_data,
+    title="Active Case Ratio Heatmap"
+)
+fig74.show()
+
+
+# ---------------- Graph 75: Cases vs Recovery Efficiency ----------------
+fig75 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='RecoveryEfficiency',
+    size='ActiveCases',
+    color='Continent',
+    title="Total Cases vs Recovery Efficiency"
+)
+fig75.show()
+
+
+# ---------------- Graph 76: Testing Coverage Distribution ----------------
+fig76 = px.histogram(
+    top15,
+    x='TestingCoverage',
+    nbins=10,
+    title="Distribution of Testing Coverage"
+)
+fig76.show()
+
+
+# ---------------- Graph 77: Active Burden vs Severity Score ----------------
+fig77 = px.scatter(
+    top15,
+    x='ActivePerMillion',
+    y='SeverityScore',
+    size='TotalCases',
+    color='Country/Region',
+    title="Active Burden vs Severity Score"
+)
+fig77.show()
+
+
+# ---------------- Graph 78: Tests vs Recovery Momentum ----------------
+fig78 = px.scatter(
+    top15,
+    x='TotalTests',
+    y='RecoveryMomentum',
+    size='TotalCases',
+    color='Continent',
+    title="Testing vs Recovery Momentum"
+)
+fig78.show()
+
+
+# ---------------- Graph 79: Severity Score Distribution ----------------
+fig79 = px.box(
+    top15,
+    y='SeverityScore',
+    title="Severity Score Distribution"
+)
+fig79.show()
+
+
+# ---------------- Graph 80: Ranking by Severity Score ----------------
+severity_rank = top15.sort_values('SeverityScore', ascending=False)
+
+fig80 = px.bar(
+    severity_rank,
+    x='Country/Region',
+    y='SeverityScore',
+    color='SeverityScore',
+    title="Country Ranking by Severity Score",
+    color_continuous_scale='OrRd'
+)
+fig80.show()

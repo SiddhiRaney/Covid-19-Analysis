@@ -1035,3 +1035,187 @@ fig75 = px.line(
     height=500
 )
 fig75.show()
+# ------------------- STEP 76–90: Extra Advanced Visualizations -------------------
+
+# STEP 76: Daily Recovery Change
+df_US["New_Recovered"] = df_US["Recovered"].diff()
+
+fig76 = px.line(
+    df_US,
+    x="Date",
+    y="New_Recovered",
+    title="Daily New Recoveries (USA)",
+    height=450
+)
+fig76.show()
+
+
+# STEP 77: Confirmed vs Active Cases
+df_US["Active"] = df_US["Confirmed"] - df_US["Recovered"] - df_US["Deaths"]
+
+fig77 = px.line(
+    df_US,
+    x="Date",
+    y=["Confirmed", "Active"],
+    title="Confirmed vs Active Cases (USA)",
+    height=450
+)
+fig77.show()
+
+
+# STEP 78: Active Case Distribution
+fig78 = px.area(
+    df_US,
+    x="Date",
+    y="Active",
+    title="Active Cases Area Trend (USA)",
+    height=450
+)
+fig78.show()
+
+
+# STEP 79: Daily Case Velocity
+df_US["Velocity"] = df_US["Confirmed"].diff()
+
+fig79 = px.scatter(
+    df_US,
+    x="Date",
+    y="Velocity",
+    title="Velocity of Confirmed Cases (USA)",
+    height=450
+)
+fig79.show()
+
+
+# STEP 80: Confirmed vs Mortality Rate Scatter
+fig80 = px.scatter(
+    df_US,
+    x="Confirmed",
+    y="Mortality_Rate",
+    size="Deaths",
+    title="Confirmed vs Mortality Rate (USA)",
+    height=450
+)
+fig80.show()
+
+
+# STEP 81: Global Confirmed Histogram
+fig81 = px.histogram(
+    dataset2,
+    x="Confirmed",
+    nbins=40,
+    title="Global Confirmed Case Distribution",
+    height=450
+)
+fig81.show()
+
+
+# STEP 82: Country-wise Active Cases Snapshot
+snapshot["Active"] = snapshot["Confirmed"] - snapshot["Recovered"] - snapshot["Deaths"]
+
+fig82 = px.bar(
+    snapshot.sort_values("Active", ascending=False).head(10),
+    x="Country/Region",
+    y="Active",
+    title="Top Countries by Active Cases",
+    height=450
+)
+fig82.show()
+
+
+# STEP 83: Recovery Rate vs Mortality Rate
+fig83 = px.scatter(
+    df_US,
+    x="Recovery_Rate",
+    y="Mortality_Rate",
+    title="Recovery Rate vs Mortality Rate (USA)",
+    height=450
+)
+fig83.show()
+
+
+# STEP 84: Weekly New Confirmed Cases
+weekly_new = df_US.groupby("Week")["New_Confirmed"].sum().reset_index()
+
+fig84 = px.bar(
+    weekly_new,
+    x="Week",
+    y="New_Confirmed",
+    title="Weekly New Confirmed Cases (USA)",
+    height=450
+)
+fig84.show()
+
+
+# STEP 85: Country Comparison Bubble (Latest)
+fig85 = px.scatter(
+    latest_global,
+    x="Confirmed",
+    y="Recovered",
+    size="Deaths",
+    color="Country/Region",
+    title="Country Comparison Bubble Chart",
+    height=500
+)
+fig85.show()
+
+
+# STEP 86: Rolling Recovery Rate
+df_US["Recovery_Rolling"] = df_US["Recovery_Rate"].rolling(7).mean()
+
+fig86 = px.line(
+    df_US,
+    x="Date",
+    y="Recovery_Rolling",
+    title="7-Day Rolling Recovery Rate (USA)",
+    height=450
+)
+fig86.show()
+
+
+# STEP 87: Daily Death Percentage
+df_US["Death_Percent"] = df_US["New_Deaths"] / df_US["New_Confirmed"]
+
+fig87 = px.line(
+    df_US,
+    x="Date",
+    y="Death_Percent",
+    title="Daily Death Percentage (USA)",
+    height=450
+)
+fig87.show()
+
+
+# STEP 88: Active vs Recovered Scatter
+fig88 = px.scatter(
+    df_US,
+    x="Active",
+    y="Recovered",
+    title="Active vs Recovered Cases (USA)",
+    height=450
+)
+fig88.show()
+
+
+# STEP 89: Global Daily Confirmed Trend
+fig89 = px.line(
+    global_daily,
+    x="Date",
+    y="Confirmed",
+    title="Global Daily Confirmed Cases",
+    height=450
+)
+fig89.show()
+
+
+# STEP 90: Final Multi-Metric Scatter
+fig90 = px.scatter(
+    df_US,
+    x="Confirmed",
+    y="Recovered",
+    size="Active",
+    color="Deaths",
+    title="Multi-Metric Relationship (USA)",
+    height=500
+)
+fig90.show()

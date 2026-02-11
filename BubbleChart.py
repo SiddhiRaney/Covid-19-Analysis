@@ -898,3 +898,207 @@ fig70 = px.scatter(dataset1.head(30),
                    size='RecoveryRate',
                    size_max=80)
 fig70.show()
+# --------------------------- STEP 41: CASE GROWTH PRESSURE ---------------------------
+
+# New Cases vs Active Cases
+fig71 = px.scatter(dataset1.head(30),
+                   x='NewCases',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewCases',
+                   size='NewCases',
+                   size_max=80,
+                   log_y=True)
+fig71.show()
+
+# New Deaths vs Total Deaths
+fig72 = px.scatter(dataset1.head(30),
+                   x='NewDeaths',
+                   y='TotalDeaths',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewDeaths',
+                   size='NewDeaths',
+                   size_max=80,
+                   log_y=True)
+fig72.show()
+
+
+# --------------------------- STEP 42: DAILY IMPACT INTENSITY ---------------------------
+
+# New Cases per 1M vs New Deaths per 1M
+fig73 = px.scatter(dataset1.head(30),
+                   x='NewCases/1M pop',
+                   y='NewDeaths/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewDeaths/1M pop',
+                   size='NewCases/1M pop',
+                   size_max=80)
+fig73.show()
+
+# New Cases vs Recovery Rate
+fig74 = px.scatter(dataset1.head(30),
+                   x='NewCases',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80)
+fig74.show()
+
+
+# --------------------------- STEP 43: HEALTHCARE RESPONSE EFFECTIVENESS ---------------------------
+
+# Serious/Critical vs Recovery Rate
+fig75 = px.scatter(dataset1.head(30),
+                   x='Serious/Critical',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Serious/Critical',
+                   size='Serious/Critical',
+                   size_max=80,
+                   log_x=True)
+fig75.show()
+
+# Active Ratio vs Recovery Rate
+fig76 = px.scatter(dataset1.head(30),
+                   x='ActiveRatio',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveRatio',
+                   size='ActiveRatio',
+                   size_max=80)
+fig76.show()
+
+
+# --------------------------- STEP 44: TESTING RESPONSE SPEED ---------------------------
+
+# New Tests vs New Cases
+fig77 = px.scatter(dataset1.head(30),
+                   x='NewTests',
+                   y='NewCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewTests',
+                   size='NewTests',
+                   size_max=80)
+fig77.show()
+
+# New Tests per 1M vs New Cases per 1M
+fig78 = px.scatter(dataset1.head(30),
+                   x='NewTests/1M pop',
+                   y='NewCases/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewTests/1M pop',
+                   size='NewTests/1M pop',
+                   size_max=80)
+fig78.show()
+
+
+# --------------------------- STEP 45: MORTALITY BURDEN TREND ---------------------------
+
+# New Deaths vs Active Cases
+fig79 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='NewDeaths',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewDeaths',
+                   size='NewDeaths',
+                   size_max=80,
+                   log_x=True)
+fig79.show()
+
+# Deaths per 1M vs Critical Share
+fig80 = px.scatter(dataset1.head(30),
+                   x='Deaths/1M pop',
+                   y='CriticalShare',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='CriticalShare',
+                   size='CriticalShare',
+                   size_max=80)
+fig80.show()
+
+
+# --------------------------- STEP 46: RECOVERY MOMENTUM ---------------------------
+
+# TotalRecovered vs RecoveryRate
+fig81 = px.scatter(dataset1.head(30),
+                   x='TotalRecovered',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalRecovered',
+                   size='TotalRecovered',
+                   size_max=80,
+                   log_x=True)
+fig81.show()
+
+# ActiveCases vs RecoveryRate (log scale)
+fig82 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='RecoveryRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryRate',
+                   size='RecoveryRate',
+                   size_max=80,
+                   log_x=True)
+fig82.show()
+
+
+# --------------------------- STEP 47: POPULATION PRESSURE INDEX ---------------------------
+
+dataset1['BurdenIndex'] = (
+    dataset1['ActiveCases'] * 0.5 +
+    dataset1['Serious/Critical'] * 0.3 +
+    dataset1['NewCases'] * 0.2
+)
+
+fig83 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='BurdenIndex',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='BurdenIndex',
+                   size='BurdenIndex',
+                   size_max=80,
+                   log_x=True)
+fig83.show()
+
+
+# --------------------------- STEP 48: PANDEMIC CONTROL SCORE ---------------------------
+
+dataset1['ControlScore'] = (
+    dataset1['RecoveryRate'] * 0.5 -
+    dataset1['DeathRate'] * 0.3 -
+    dataset1['Cases_per_Test'] * 0.2
+)
+
+fig84 = px.scatter(dataset1.head(30),
+                   x='ControlScore',
+                   y='SeverityIndex',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ControlScore',
+                   size='ControlScore',
+                   size_max=80)
+fig84.show()
+
+
+# --------------------------- STEP 49: CONTINENTAL RESPONSE BALANCE ---------------------------
+
+continent_control = dataset1.groupby('Continent')['ControlScore'].mean().reset_index()
+
+fig85 = px.scatter(continent_control,
+                   x='Continent',
+                   y='ControlScore',
+                   color='ControlScore',
+                   size='ControlScore',
+                   size_max=80)
+fig85.show()
+
+
+# --------------------------- STEP 50: OVERALL PANDEMIC STABILITY ---------------------------
+
+fig86 = px.scatter(dataset1.head(30),
+                   x='ControlScore',
+                   y='ActiveRatio',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveRatio',
+                   size='ActiveRatio',
+                   size_max=80)
+fig86.show()

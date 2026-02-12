@@ -354,4 +354,25 @@ fig.show()
 # Step 15: Save Final Dashboard
 # ------------------------------------------------------------
 fig.write_html("us_population_dashboard.html")
+import numpy as np
+
+df["Population_Log"] = np.log10(df["Population"])
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_Log",
+    hover_name="State",
+    hover_data={"Population": True, "Population_Log": False},
+    color_continuous_scale="Cividis",
+    scope="usa",
+    title="Log Scaled Population Distribution"
+)
+
+fig.update_layout(
+    coloraxis_colorbar=dict(title="Log10(Population)")
+)
+
+fig.show()
 

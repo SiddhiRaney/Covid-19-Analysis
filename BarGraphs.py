@@ -1002,3 +1002,120 @@ fig80 = px.bar(
     color_continuous_scale='OrRd'
 )
 fig80.show()
+# ===================== ADDITIONAL VISUALIZATIONS (81–90) =====================
+
+# ---------------- Graph 81: Log Scale Cases vs Deaths ----------------
+fig81 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='TotalDeaths',
+    log_x=True,
+    log_y=True,
+    color='Continent',
+    title="Log Scale: Total Cases vs Total Deaths"
+)
+fig81.show()
+
+
+# ---------------- Graph 82: Cases vs Population (Normalized) ----------------
+fig82 = px.scatter(
+    top15,
+    x='Population',
+    y='CasesPerMillion',
+    size='TotalCases',
+    color='Continent',
+    title="Population vs Cases per Million"
+)
+fig82.show()
+
+
+# ---------------- Graph 83: Death Rate Trend Line ----------------
+fig83 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='DeathRate',
+    trendline="ols",
+    color='Continent',
+    title="Death Rate Trend vs Total Cases"
+)
+fig83.show()
+
+
+# ---------------- Graph 84: Recovery vs Active Ratio ----------------
+top15['RecoveryActiveRatio'] = top15['TotalRecovered'] / top15['ActiveCases']
+
+fig84 = px.bar(
+    top15,
+    x='Country/Region',
+    y='RecoveryActiveRatio',
+    color='RecoveryActiveRatio',
+    title="Recovery to Active Case Ratio"
+)
+fig84.show()
+
+
+# ---------------- Graph 85: Polar Chart - Death Rate ----------------
+fig85 = px.line_polar(
+    top15,
+    r='DeathRate',
+    theta='Country/Region',
+    line_close=True,
+    title="Polar Plot of Death Rate"
+)
+fig85.show()
+
+
+# ---------------- Graph 86: Cases vs Tests Density ----------------
+fig86 = px.density_contour(
+    top15,
+    x='TotalCases',
+    y='TotalTests',
+    title="Density Contour: Cases vs Tests"
+)
+fig86.show()
+
+
+# ---------------- Graph 87: Strip Plot - Death Rate by Continent ----------------
+fig87 = px.strip(
+    top15,
+    x='Continent',
+    y='DeathRate',
+    color='Continent',
+    title="Death Rate Distribution by Continent"
+)
+fig87.show()
+
+
+# ---------------- Graph 88: ECDF Plot - Total Cases ----------------
+fig88 = px.ecdf(
+    top15,
+    x='TotalCases',
+    color='Continent',
+    title="ECDF of Total Cases"
+)
+fig88.show()
+
+
+# ---------------- Graph 89: Active vs Death Burden ----------------
+fig89 = px.scatter(
+    top15,
+    x='ActiveCases',
+    y='MortalityBurden',
+    size='TotalCases',
+    color='Country/Region',
+    title="Active Cases vs Mortality Burden"
+)
+fig89.show()
+
+
+# ---------------- Graph 90: Sorted Line Plot - Recovery Rate ----------------
+sorted_rr = top15.sort_values('RecoveryRate')
+
+fig90 = px.line(
+    sorted_rr,
+    x='Country/Region',
+    y='RecoveryRate',
+    markers=True,
+    title="Sorted Recovery Rate by Country"
+)
+fig90.show()

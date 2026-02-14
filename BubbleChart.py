@@ -1102,3 +1102,19 @@ fig86 = px.scatter(dataset1.head(30),
                    size='ActiveRatio',
                    size_max=80)
 fig86.show()
+# --------------------------- STEP 47: POPULATION PRESSURE INDEX ---------------------------
+
+dataset1['BurdenIndex'] = (
+    dataset1['ActiveCases'] * 0.5 +
+    dataset1['Serious/Critical'] * 0.3 +
+    dataset1['TotalDeaths'] * 0.2
+)
+
+fig83 = px.scatter(dataset1.head(30),
+                   x='Country/Region',
+                   y='BurdenIndex',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='BurdenIndex',
+                   size='BurdenIndex',
+                   size_max=80)
+fig83.show()

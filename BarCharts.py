@@ -1219,3 +1219,92 @@ fig90 = px.scatter(
     height=500
 )
 fig90.show()
+
+# STEP 91: 14-Day Rolling Average of Deaths
+df_US["Deaths_MA14"] = df_US["Deaths"].rolling(14).mean()
+
+fig91 = px.line(df_US, x="Date", y="Deaths_MA14",
+                title="14-Day Rolling Average of Deaths (USA)", height=450)
+fig91.show()
+
+
+# STEP 92: Confirmed vs Active Ratio
+df_US["Confirmed_Active_Ratio"] = df_US["Confirmed"] / df_US["Active"]
+
+fig92 = px.line(df_US, x="Date", y="Confirmed_Active_Ratio",
+                title="Confirmed to Active Case Ratio (USA)", height=450)
+fig92.show()
+
+
+# STEP 93: Exponential Moving Average
+df_US["Confirmed_EMA10"] = df_US["Confirmed"].ewm(span=10).mean()
+
+fig93 = px.line(df_US, x="Date", y=["Confirmed", "Confirmed_EMA10"],
+                title="Confirmed vs 10-Day EMA (USA)", height=450)
+fig93.show()
+
+
+# STEP 94: Daily Case Momentum
+df_US["Momentum"] = df_US["New_Confirmed"].diff(3)
+
+fig94 = px.line(df_US, x="Date", y="Momentum",
+                title="3-Day Momentum of Confirmed Cases (USA)", height=450)
+fig94.show()
+
+
+# STEP 95: Top 10 Countries – Mortality Rate Snapshot
+snapshot["Mortality_Rate"] = snapshot["Deaths"] / snapshot["Confirmed"]
+
+fig95 = px.bar(
+    snapshot.sort_values("Mortality_Rate", ascending=False).head(10),
+    x="Country/Region", y="Mortality_Rate",
+    title="Top 10 Countries by Mortality Rate", height=450
+)
+fig95.show()
+
+
+# STEP 96: Global Recovery Rate Over Time
+global_daily_full = dataset2.groupby("Date")[["Confirmed", "Recovered"]].sum().reset_index()
+global_daily_full["Global_Recovery_Rate"] = (
+    global_daily_full["Recovered"] / global_daily_full["Confirmed"]
+)
+
+fig96 = px.line(global_daily_full, x="Date", y="Global_Recovery_Rate",
+                title="Global Recovery Rate Over Time", height=450)
+fig96.show()
+
+
+# STEP 97: Country Rank Heatmap
+rank_pivot = dataset2.pivot_table(
+    index="Country/Region",
+    columns="Date",
+    values="Rank"
+)
+
+fig97 = px.imshow(rank_pivot.head(15),
+                  title="Country Rank Heatmap (Top 15)", height=500)
+fig97.show()
+
+
+# STEP 98: Deaths vs Recovery Growth Scatter
+df_US["Recovery_Growth"] = df_US["New_Recovered"].pct_change()
+df_US["Death_Growth"] = df_US["New_Deaths"].pct_change()
+
+fig98 = px.scatter(df_US, x="Recovery_Growth", y="Death_Growth",
+                   title="Recovery Growth vs Death Growth (USA)", height=450)
+fig98.show()
+
+
+# STEP 99: Rolling Peak Indicator
+df_US["Peak_Flag"] = df_US["New_Confirmed"] == df_US["New_Confirmed"].rolling(14).max()
+
+fig99 = px.scatter(df_US, x="Date", y="New_Confirmed",
+                   color="Peak_Flag",
+                   title="Rolling Peak Indicator (USA)", height=450)
+fig99.show()
+
+
+# STEP 100: Final Composite Dashboard Chart
+fig100 = px.area(df_US, x="Date", y=["Active", "Recovered", "Deaths"],
+                 title="Final Composite COVID Impact Overview (USA)", height=500)
+fig100.show()

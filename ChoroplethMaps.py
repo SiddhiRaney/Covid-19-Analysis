@@ -376,3 +376,180 @@ fig.update_layout(
 
 fig.show()
 
+# ------------------------------------------------------------
+# Step 16: Normalize Population (Min-Max Scaling)
+# ------------------------------------------------------------
+df["Pop_Normalized"] = (
+    (df["Population"] - df["Population"].min()) /
+    (df["Population"].max() - df["Population"].min())
+)
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Pop_Normalized",
+    hover_name="State",
+    color_continuous_scale="Viridis",
+    scope="usa",
+    title="Normalized Population (0–1 Scale)"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 17: Reverse Color Scale
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    color_continuous_scale="Viridis_r",
+    scope="usa",
+    title="Population Map (Reversed Colors)"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 18: Highlight Single State (California)
+# ------------------------------------------------------------
+df["Highlight_CA"] = df["State"] == "California"
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Highlight_CA",
+    hover_name="State",
+    scope="usa",
+    color_discrete_map={True: "gold", False: "lightgray"},
+    title="Highlight: California"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 19: Custom Continuous Color Range
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    range_color=(10, 40),
+    hover_name="State",
+    color_continuous_scale="Magma",
+    scope="usa",
+    title="Population Map with Fixed Color Range"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 20: Sort Data Before Mapping
+# ------------------------------------------------------------
+df_sorted = df.sort_values("Population", ascending=True)
+
+fig = px.choropleth(
+    df_sorted,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    scope="usa",
+    title="Sorted Population Mapping"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 21: Add Border Styling
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    color_continuous_scale="Viridis",
+    scope="usa",
+    title="Map with Styled Borders"
+)
+
+fig.update_traces(marker_line_color="white", marker_line_width=2)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 22: Population Density (Simulated Area)
+# ------------------------------------------------------------
+df["Area"] = [423967, 695662, 170312, 141297, 149995]  # km² (approx)
+df["Density"] = df["Population"] / df["Area"]
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Density",
+    hover_name="State",
+    color_continuous_scale="Inferno",
+    scope="usa",
+    title="Population Density Map"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 23: Tooltip with Multiple Fields
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    hover_name="State",
+    hover_data=["Population", "Density"],
+    scope="usa",
+    title="Detailed Tooltip Map"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 24: Threshold Highlight (Above Average)
+# ------------------------------------------------------------
+avg_pop = df["Population"].mean()
+df["Above_Avg"] = df["Population"] > avg_pop
+
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Above_Avg",
+    hover_name="State",
+    scope="usa",
+    color_discrete_map={True: "green", False: "lightgray"},
+    title="States Above Average Population"
+)
+fig.show()
+
+
+# ------------------------------------------------------------
+# Step 25: Simple Minimal Map
+# ------------------------------------------------------------
+fig = px.choropleth(
+    df,
+    locations="State_Code",
+    locationmode="USA-states",
+    color="Population_M",
+    scope="usa"
+)
+
+fig.update_layout(
+    title="Minimal Choropleth",
+    margin=dict(l=0, r=0, t=40, b=0)
+)
+fig.show()

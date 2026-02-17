@@ -1119,3 +1119,116 @@ fig90 = px.line(
     title="Sorted Recovery Rate by Country"
 )
 fig90.show()
+# ===================== ADDITIONAL VISUALIZATIONS (91–100) =====================
+
+# ---------------- Graph 91: Cases vs Death Share Closed ----------------
+fig91 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='DeathShareClosed',
+    size='TotalCases',
+    color='Continent',
+    title="Total Cases vs Death Share of Closed Cases"
+)
+fig91.show()
+
+
+# ---------------- Graph 92: Population vs Severity Score ----------------
+fig92 = px.scatter(
+    top15,
+    x='Population',
+    y='SeverityScore',
+    size='TotalCases',
+    color='Country/Region',
+    title="Population vs Severity Score"
+)
+fig92.show()
+
+
+# ---------------- Graph 93: Tests per Million Distribution ----------------
+fig93 = px.histogram(
+    top15,
+    x='TestsPerMillion',
+    nbins=10,
+    title="Distribution of Tests per Million"
+)
+fig93.show()
+
+
+# ---------------- Graph 94: Cases vs Active Rate ----------------
+fig94 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='ActiveRate',
+    size='ActiveCases',
+    color='Continent',
+    title="Total Cases vs Active Rate"
+)
+fig94.show()
+
+
+# ---------------- Graph 95: Parallel Categories Plot ----------------
+fig95 = px.parallel_categories(
+    top15,
+    dimensions=['Continent', 'Country/Region'],
+    title="Parallel Categories: Continent and Country"
+)
+fig95.show()
+
+
+# ---------------- Graph 96: Total Tests by Continent ----------------
+continent_tests = top15.groupby('Continent')['TotalTests'].sum().reset_index()
+
+fig96 = px.bar(
+    continent_tests,
+    x='Continent',
+    y='TotalTests',
+    color='TotalTests',
+    title="Total Tests by Continent"
+)
+fig96.show()
+
+
+# ---------------- Graph 97: Active Cases per Million vs Death Rate ----------------
+fig97 = px.scatter(
+    top15,
+    x='ActivePerMillion',
+    y='DeathRate',
+    size='TotalCases',
+    color='Country/Region',
+    title="Active Cases per Million vs Death Rate"
+)
+fig97.show()
+
+
+# ---------------- Graph 98: Recovery Efficiency Distribution ----------------
+fig98 = px.box(
+    top15,
+    y='RecoveryEfficiency',
+    title="Recovery Efficiency Distribution"
+)
+fig98.show()
+
+
+# ---------------- Graph 99: Total Metrics Comparison (Grouped Bar) ----------------
+fig99 = px.bar(
+    top15,
+    x='Country/Region',
+    y=['TotalCases', 'TotalTests'],
+    barmode='group',
+    title="Total Cases vs Total Tests Comparison"
+)
+fig99.show()
+
+
+# ---------------- Graph 100: Final Summary Bubble ----------------
+fig100 = px.scatter(
+    top15,
+    x='TotalCases',
+    y='RecoveryRate',
+    size='SeverityScore',
+    color='Continent',
+    hover_name='Country/Region',
+    title="Summary Bubble: Cases vs Recovery Rate (Size = Severity Score)"
+)
+fig100.show()

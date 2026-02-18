@@ -1118,3 +1118,139 @@ fig83 = px.scatter(dataset1.head(30),
                    size='BurdenIndex',
                    size_max=80)
 fig83.show()
+# --------------------------- STEP 47: ADVANCED BURDEN RELATIONSHIPS ---------------------------
+
+# Bubble chart - TotalRecovered vs TotalDeaths
+fig83 = px.scatter(dataset1.head(30),
+                   x='TotalRecovered',
+                   y='TotalDeaths',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalDeaths',
+                   size='TotalRecovered',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig83.show()
+
+# Bubble chart - TotalRecovered vs ActiveCases
+fig84 = px.scatter(dataset1.head(30),
+                   x='TotalRecovered',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='ActiveCases',
+                   size_max=80,
+                   log_x=True)
+fig84.show()
+
+
+# --------------------------- STEP 48: TESTING INTENSITY ---------------------------
+
+# Tests vs Population
+fig85 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='TotalTests',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalTests',
+                   size='TotalTests',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig85.show()
+
+# Tests vs ActiveCases
+fig86 = px.scatter(dataset1.head(30),
+                   x='TotalTests',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='ActiveCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig86.show()
+
+
+# --------------------------- STEP 49: RATE RELATIONSHIPS ---------------------------
+
+# RecoveryRate vs ActiveRatio
+fig87 = px.scatter(dataset1.head(30),
+                   x='RecoveryRate',
+                   y='ActiveRatio',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveRatio',
+                   size='RecoveryRate',
+                   size_max=80)
+fig87.show()
+
+# DeathRate vs ActiveRatio
+fig88 = px.scatter(dataset1.head(30),
+                   x='DeathRate',
+                   y='ActiveRatio',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='DeathRate',
+                   size='DeathRate',
+                   size_max=80)
+fig88.show()
+
+
+# --------------------------- STEP 50: CASE DISTRIBUTION ---------------------------
+
+# TotalCases vs Population
+fig89 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='TotalCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='TotalCases',
+                   size='TotalCases',
+                   size_max=80,
+                   log_x=True,
+                   log_y=True)
+fig89.show()
+
+# Cases per 1M vs Population
+fig90 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='Cases/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Cases/1M pop',
+                   size='Cases/1M pop',
+                   size_max=80,
+                   log_x=True)
+fig90.show()
+
+
+# --------------------------- STEP 51: SEVERITY RELATIONSHIPS ---------------------------
+
+# SeverityIndex vs TotalDeaths
+fig91 = px.scatter(dataset1.head(30),
+                   x='SeverityIndex',
+                   y='TotalDeaths',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='SeverityIndex',
+                   size='SeverityIndex',
+                   size_max=80,
+                   log_y=True)
+fig91.show()
+
+# SeverityIndex vs ActiveCases
+fig92 = px.scatter(dataset1.head(30),
+                   x='SeverityIndex',
+                   y='ActiveCases',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ActiveCases',
+                   size='SeverityIndex',
+                   size_max=80,
+                   log_y=True)
+fig92.show()
+
+# SeverityIndex vs Population
+fig93 = px.scatter(dataset1.head(30),
+                   x='Population',
+                   y='SeverityIndex',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='SeverityIndex',
+                   size='SeverityIndex',
+                   size_max=80,
+                   log_x=True)
+fig93.show()

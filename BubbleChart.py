@@ -1254,3 +1254,100 @@ fig93 = px.scatter(dataset1.head(30),
                    size_max=80,
                    log_x=True)
 fig93.show()
+# --------------------------- STEP 52: RECOVERY EFFICIENCY INDEX ---------------------------
+
+# Creating Recovery Efficiency Score
+dataset1['RecoveryEfficiency'] = dataset1['TotalRecovered'] / dataset1['TotalCases']
+
+# Bubble chart - Recovery Efficiency vs Death Rate
+fig94 = px.scatter(dataset1.head(30),
+                   x='RecoveryEfficiency',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='RecoveryEfficiency',
+                   size='RecoveryEfficiency',
+                   size_max=80)
+fig94.show()
+
+
+# --------------------------- STEP 53: TESTING INTENSITY IMPACT ---------------------------
+
+# Bubble chart - Tests per Case vs Cases per 1M
+fig95 = px.scatter(dataset1.head(30),
+                   x='Tests_per_Case',
+                   y='Cases/1M pop',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='Tests_per_Case',
+                   size='Tests_per_Case',
+                   size_max=80)
+fig95.show()
+
+
+# --------------------------- STEP 54: CRITICAL LOAD DENSITY ---------------------------
+
+# Critical cases relative to population
+dataset1['CriticalDensity'] = dataset1['Serious/Critical'] / dataset1['Population']
+
+fig96 = px.scatter(dataset1.head(30),
+                   x='CriticalDensity',
+                   y='DeathRate',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='CriticalDensity',
+                   size='CriticalDensity',
+                   size_max=80)
+fig96.show()
+
+
+# --------------------------- STEP 55: PANDEMIC MOMENTUM ---------------------------
+
+# New Cases vs New Deaths
+fig97 = px.scatter(dataset1.head(30),
+                   x='NewCases',
+                   y='NewDeaths',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='NewDeaths',
+                   size='NewCases',
+                   size_max=80)
+fig97.show()
+
+
+# --------------------------- STEP 56: HEALTHCARE PRESSURE BALANCE ---------------------------
+
+# ActiveCases vs Serious/Critical Ratio
+dataset1['CriticalActiveRatio'] = dataset1['Serious/Critical'] / dataset1['ActiveCases']
+
+fig98 = px.scatter(dataset1.head(30),
+                   x='ActiveCases',
+                   y='CriticalActiveRatio',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='CriticalActiveRatio',
+                   size='CriticalActiveRatio',
+                   size_max=80,
+                   log_x=True)
+fig98.show()
+
+
+# --------------------------- STEP 57: CONTROL STABILITY RELATION ---------------------------
+
+# ControlScore vs RecoveryEfficiency
+fig99 = px.scatter(dataset1.head(30),
+                   x='ControlScore',
+                   y='RecoveryEfficiency',
+                   hover_data=['Country/Region', 'Continent'],
+                   color='ControlScore',
+                   size='ControlScore',
+                   size_max=80)
+fig99.show()
+
+
+# --------------------------- STEP 58: GLOBAL RISK BALANCE ---------------------------
+
+# SeverityIndex vs BurdenIndex
+fig100 = px.scatter(dataset1.head(30),
+                    x='SeverityIndex',
+                    y='BurdenIndex',
+                    hover_data=['Country/Region', 'Continent'],
+                    color='BurdenIndex',
+                    size='SeverityIndex',
+                    size_max=80)
+fig100.show()
